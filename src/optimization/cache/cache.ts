@@ -3,9 +3,19 @@
 
 type Key = any[];
 
+type CacheLayerData<PossibleValues> = {
+    isComputed: false;
+    value: undefined;
+} | {
+    isComputed: true;
+    value: PossibleValues;
+}
+
 class CacheLayer<PossibleValues> {
-    isComputed = false;
-    value: PossibleValues | undefined;
+    data: CacheLayerData<PossibleValues> = {
+        isComputed: false,
+        value: undefined,
+    };
     map: Map<any, CacheLayer<PossibleValues>> | undefined;
 
     getOrCreateMap() {
@@ -17,8 +27,8 @@ class CacheLayer<PossibleValues> {
     }
 
     setValue<T extends PossibleValues>(value: T): T {
-        this.value = value;
-        this.isComputed = true;
+        this.data.isComputed = true;
+        this.data.value = value;
 
         return value;
     }
@@ -71,7 +81,7 @@ class Cache<PossibleValues> {
     }
 
     has(key: Key): boolean {
-        return !!this.getLayer(key)?.isComputed
+        return !!this.getLayer(key)?.data.isComputed
     }
 
     set<T extends PossibleValues>(key: Key, value: T): T {
@@ -79,12 +89,12 @@ class Cache<PossibleValues> {
     }
 
     get(key: Key) {
-        return this.getLayer(key)?.value;
+        return this.getLayer(key)?.data.value;
     }
 
     getOrSet(key: Key, getNewValueIfEmpty: () => PossibleValues) {
         const layer = this.getOrCreateLayer(key);
-        if (layer.isComputed) return layer.value;
+        if (layer.data.isComputed) return layer.data.value;
 
         return layer.setValue(getNewValueIfEmpty())
     }
@@ -92,7 +102,7 @@ class Cache<PossibleValues> {
     getSize() {
         let size = 0;
 
-        if (this.layer?.isComputed) {
+        if (this.layer?.data.isComputed) {
             size++;
         }
 

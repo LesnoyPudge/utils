@@ -9,11 +9,11 @@ export const counter = (
     let step = providedStep;
     let count = initial;
     
-    const get = () => count;;
-    const increase = (amount = step) => count = count + amount;
-    const decrease = (amount = step) => count = count - amount;
-    const reset = () => count = initial;
+    const get = () => count;
     const setCount = (amount: number) => count = amount;
+    const increase = (amount = step) => setCount(count + amount);
+    const decrease = (amount = step) => setCount(count - amount);
+    const reset = () => setCount(initial);
     const setInitial = (newInitial: number) => initial = newInitial;
     const setStep = (newStep: number) => step = newStep;
 

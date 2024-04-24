@@ -9,4 +9,13 @@ export default {
     modulePaths: [
         '<rootDir>'
     ],
+    // transformIgnorePatterns: [
+    //     // "node_modules/(?!defaults)",
+    //     "/!node_modules\\/defaults/"
+    //     // "lib/*"
+    // ],
+    transformIgnorePatterns: [
+        "/!node_modules\\/defaults/",
+        "node_modules/(?!defaults)"
+    ]
 };
