@@ -1,4 +1,4 @@
-import { hotKey, noop } from "@root"
+import { counter, hotKey, noop } from "@root"
 
 
 
@@ -23,5 +23,44 @@ describe('hotKey', () => {
         expect(hotKey.make(['control', 's'])(noop)(e3)).toBe(false)
 
         expect(hotKey.make([])(noop)(e4)).toBe(true)
+    })
+
+    test('2', () => {
+        const e1 = new KeyboardEvent('keydown', {key: 'w'})
+        const {get, inc} = counter(0)
+        
+        const res = hotKey.one(
+            hotKey.make(['w'])(() => inc()),
+            hotKey.make(['w'])(() => inc()),
+        )(e1)
+
+        expect(res).toBe(true)
+        expect(get()).toBe(1);
+    })
+
+    test('3', () => {
+        const e1 = new KeyboardEvent('keydown', {key: 'w'})
+        const {get, inc} = counter(0)
+        
+        const res = hotKey.many(
+            hotKey.make(['w'])(() => inc()),
+            hotKey.make(['w'])(() => inc()),
+        )(e1)
+
+        expect(res).toBe(true)
+        expect(get()).toBe(2);
+    })
+
+    test('4', () => {
+        const e1 = new KeyboardEvent('keydown', {key: 's'})
+        const {get, inc} = counter(0)
+        
+        const res = hotKey.many(
+            hotKey.make(['w'])(() => inc()),
+            hotKey.make(['w'])(() => inc()),
+        )(e1)
+
+        expect(res).toBe(false)
+        expect(get()).toBe(0);
     })
 })

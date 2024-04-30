@@ -12,7 +12,7 @@ type HotKeyOptions = {
     stopImmediate?: boolean;
 }
 
-type HotKey = (action: Action, options?: null | HotKeyOptions) => Handler;
+type HotKey = (action: Action, options?: HotKeyOptions) => Handler;
 
 type KeyCombos = string[][];
 
@@ -64,16 +64,16 @@ const matchKeyCombos = (e: KeyboardEvent, keyCombos: KeyCombos) => {
 }
 
 const make: Make = (...keyCombos) => {
-    return (action, options = {}) => {
-        options = options === null ? {} : defaults(options, defaultOptions)
+    return (action, options = defaultOptions) => {
+        options = defaults(options, defaultOptions)
         
         return (e) => {
             const isMatch = matchKeyCombos(e, keyCombos);
             if (!isMatch) return false;
  
-            options?.prevent && e.preventDefault()
-            options?.stop && e.stopPropagation();
-            options?.stopImmediate && e.stopImmediatePropagation()
+            options.prevent && e.preventDefault()
+            options.stop && e.stopPropagation();
+            options.stopImmediate && e.stopImmediatePropagation()
 
             try {
                 action(e)
@@ -89,7 +89,7 @@ const make: Make = (...keyCombos) => {
 
 const uniter = (maxCalls: number) => {
     return (...handlers: Handler[]) => {
-        return (e: EventLike) => {
+        return (e: EventLike): boolean => {
             let count = 0;
             let bail = count >= maxCalls;
             const event = e.nativeEvent ?? e;
@@ -102,6 +102,8 @@ const uniter = (maxCalls: number) => {
 
                 bail = count >= maxCalls;
             });
+
+            return !!count;
         }
     }
 }
