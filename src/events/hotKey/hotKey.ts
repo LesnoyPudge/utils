@@ -23,7 +23,7 @@ type EventLike = KeyboardEvent & {
 }
 
 const defaultOptions: Required<HotKeyOptions>  = {
-    prevent: true,
+    prevent: false,
     stop: false,
     stopImmediate: false,
 }
