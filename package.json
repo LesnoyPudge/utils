@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "lesnoypudge's utils",
     "main": "index.ts",
     "types": "index.ts",
@@ -12,10 +12,10 @@
     ],
     "scripts": {
         "dev": "",
-        "build": "del-cli build && npx tsc && del-cli build/**/*.test.js",
+        "build": "del-cli build && npx tsc ./src && del-cli build/**/*.test.js",
         "test": "vitest",
         "test:watch": "vitest --watch",
-        "publish": "npm publish --access public",
+        "publish": "publish --access public",
         "deploy": "git add . && git commit -m 'update' && git push && git status"
     },
     "keywords": [
