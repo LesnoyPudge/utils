@@ -1,21 +1,19 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "lesnoypudge's utils",
-    "main": "index.ts",
-    "types": "index.ts",
+    "main": "./build/index.js",
     "type": "module",
     "files": [
-        "index.ts",
-        "src",
+        "build",
         "README.md"
     ],
     "scripts": {
         "dev": "",
-        "build": "del-cli build && npx tsc ./src && del-cli build/**/*.test.js",
+        "build": "del-cli build && tsc --project tsconfig.json && tsc-alias -p tsconfig.json && del-cli build/**/*.test.js && del-cli build/**/*.config.js",
         "test": "vitest",
         "test:watch": "vitest --watch",
-        "publish": "publish --access public",
+        "publish": "npm publish --access public",
         "deploy": "git add . && git commit -m 'update' && git push && git status"
     },
     "keywords": [
@@ -24,6 +22,9 @@
     ],
     "author": "LesnoyPudge",
     "license": "ISC",
+    "dependencies": {
+        "defaults": "^3.0.0"
+    },
     "devDependencies": {
         "@total-typescript/ts-reset": "^0.5.1",
         "@types/jest": "^29.5.12",
@@ -33,11 +34,9 @@
         "jsdom": "^24.0.0",
         "ts-essentials": "^10.0.0",
         "ts-jest": "^29.1.2",
+        "tsc-alias": "^1.8.8",
         "typescript": "^5.4.5",
         "vite-tsconfig-paths": "^4.3.2",
         "vitest": "^1.5.3"
-    },
-    "dependencies": {
-        "defaults": "^3.0.0"
     }
 }

@@ -15,7 +15,13 @@
         "moduleResolution": "Bundler",
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "baseUrl": "./",
+
+        "allowJs": false,
+        "declaration": true,
+        // "emitDeclarationOnly": true,
+        "declarationMap": true,
+
+        "baseUrl": "./src",
         "paths": {
             "@root": ["index.ts"]
         }
