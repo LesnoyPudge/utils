@@ -1,7 +1,11 @@
 {
+    "include": [
+        "src/**/*.ts"
+    ],
     "exclude": [
         "node_modules",
-        "build"
+        "build",
+        // "src/**/*.test.ts",
     ],
     "compilerOptions": {
         "types": ["vitest/globals", "@total-typescript/ts-reset"],
@@ -12,14 +16,16 @@
         "outDir": "build",
         "skipLibCheck": true,
         "strict": true,
-        "moduleResolution": "Bundler",
+        "moduleResolution": "Node",
         "esModuleInterop": true,
         "resolveJsonModule": true,
 
-        "allowJs": false,
+        // "declarationDir": "build",
+        "composite": true,
+        "allowJs": true,
         "declaration": true,
         // "emitDeclarationOnly": true,
-        "declarationMap": true,
+        "declarationMap": false,
 
         "baseUrl": "./src",
         "paths": {
