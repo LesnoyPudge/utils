@@ -26,9 +26,9 @@
         // "emitDeclarationOnly": true,
         "declarationMap": false,
 
-        "baseUrl": "./src",
+        "baseUrl": ".",
         "paths": {
-            "@root": ["index.ts"],
+            "@root": ["src/index.ts"],
         },
     },
 }

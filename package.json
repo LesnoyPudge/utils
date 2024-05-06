@@ -1,9 +1,9 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "2.1.5",
+    "version": "2.1.7",
     "description": "lesnoypudge's utils",
-    "main": "build/index.js",
-    "types": "build/index.d.ts",
+    "main": "build/src/index.js",
+    "types": "build/src/index.d.ts",
     "type": "module",
     "files": [
         "build",
