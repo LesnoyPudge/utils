@@ -1,6 +1,6 @@
 
 
 
-export const chance = (probability: number): boolean => {
+export const chance = (probability: number) => {
     return Math.random() < probability;
-}
+};

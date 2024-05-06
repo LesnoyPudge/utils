@@ -1,7 +1,5 @@
 {
-    "include": [
-        "src/**/*.ts"
-    ],
+    "include": ["src/**/*.ts"],
     "exclude": [
         "node_modules",
         "build",
@@ -16,7 +14,8 @@
         "outDir": "build",
         "skipLibCheck": true,
         "strict": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "Bundler",
+        // "allowImportingTsExtensions": true,
         "esModuleInterop": true,
         "resolveJsonModule": true,
 
@@ -29,7 +28,7 @@
 
         "baseUrl": "./src",
         "paths": {
-            "@root": ["index.ts"]
-        }
-    }
+            "@root": ["index.ts"],
+        },
+    },
 }

@@ -3,12 +3,10 @@ import { pathsToModuleNameMapper } from "ts-jest";
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
+    preset: "ts-jest",
+    testEnvironment: "node",
     moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths),
-    modulePaths: [
-        '<rootDir>'
-    ],
+    modulePaths: ["<rootDir>"],
     // transformIgnorePatterns: [
     //     // "node_modules/(?!defaults)",
     //     "/!node_modules\\/defaults/"
@@ -16,6 +14,6 @@ export default {
     // ],
     transformIgnorePatterns: [
         "/!node_modules\\/defaults/",
-        "node_modules/(?!defaults)"
-    ]
+        "node_modules/(?!defaults)",
+    ],
 };
