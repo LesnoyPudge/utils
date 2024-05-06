@@ -1,2 +1,2 @@
-export * from './counter'
+export * from './Counter'
 export * from './clamp'

@@ -1,4 +1,4 @@
-import { counter } from "@root"
+import { Counter } from "@root"
 
 
 
@@ -10,9 +10,9 @@ describe('counter', () => {
             decrease,
             reset,
             setCount,
-            setInitial,
+            setInitialCount,
             setStep,
-        } = counter();
+        } = new Counter();
 
         increase(2)
         increase()
@@ -47,7 +47,7 @@ describe('counter', () => {
 
         expect(get()).toBe(0)
 
-        setInitial(11)
+        setInitialCount(11)
 
         reset()
 
@@ -63,8 +63,8 @@ describe('counter', () => {
             get, 
             inc, 
             reset,
-            setInitial,
-        } = counter(5, 3);
+            setInitialCount,
+        } = new Counter(5, 3);
 
         expect(get()).toBe(5)
 
@@ -72,9 +72,22 @@ describe('counter', () => {
 
         expect(get()).toBe(8)
 
-        setInitial(0)
+        setInitialCount(0)
         reset()
 
         expect(get()).toBe(0)
+    })
+
+    test('3', () => {
+        const c = new Counter();
+        let result = 0;
+
+        c.onCountChange((value) => {
+            result = value;
+        })
+
+        c.inc(2)
+
+        expect(result).toBe(2);
     })
 })

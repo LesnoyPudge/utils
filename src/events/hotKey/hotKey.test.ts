@@ -1,4 +1,4 @@
-import { counter, hotKey, noop } from "@root"
+import { Counter, hotKey, noop } from "@root"
 
 
 
@@ -27,7 +27,7 @@ describe('hotKey', () => {
 
     test('2', () => {
         const e1 = new KeyboardEvent('keydown', {key: 'w'})
-        const {get, inc} = counter(0)
+        const {get, inc} = new Counter()
         
         const res = hotKey.one(
             hotKey.make(['w'])(() => inc()),
@@ -40,7 +40,7 @@ describe('hotKey', () => {
 
     test('3', () => {
         const e1 = new KeyboardEvent('keydown', {key: 'w'})
-        const {get, inc} = counter(0)
+        const {get, inc} = new Counter()
         
         const res = hotKey.many(
             hotKey.make(['w'])(() => inc()),
@@ -53,7 +53,7 @@ describe('hotKey', () => {
 
     test('4', () => {
         const e1 = new KeyboardEvent('keydown', {key: 's'})
-        const {get, inc} = counter(0)
+        const {get, inc} = new Counter()
         
         const res = hotKey.many(
             hotKey.make(['w'])(() => inc()),

@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "2.1.7",
+    "version": "2.2.0",
     "description": "lesnoypudge's utils",
     "main": "build/src/index.js",
     "types": "build/src/index.d.ts",
@@ -25,6 +25,7 @@
     "author": "LesnoyPudge",
     "license": "ISC",
     "dependencies": {
+        "auto-bind": "^5.0.1",
         "defaults": "^3.0.0"
     },
     "devDependencies": {

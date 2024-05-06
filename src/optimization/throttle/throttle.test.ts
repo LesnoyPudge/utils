@@ -1,11 +1,11 @@
-import { counter, sleep, throttle } from "@root"
+import { Counter, sleep, throttle } from "@root"
 
 
 
 describe('throttle', () => {
     describe('should be called once', () => {
         test('1', () => {
-            const c = counter();
+            const c = new Counter();
             const [throttled, {reset}] = throttle(() => c.inc(), 100)
 
             throttled()
@@ -18,7 +18,7 @@ describe('throttle', () => {
         })
 
         test('2', () => {
-            const c = counter();
+            const c = new Counter();
             const [throttled, {reset}] = throttle(() => c.inc(), 0)
 
             throttled()
@@ -33,7 +33,7 @@ describe('throttle', () => {
 
     describe('should be called multiple times', () => {
         test('1', async() => {
-            const c = counter();
+            const c = new Counter();
 
             const [throttled, {reset}] = throttle(c.inc, 0);
 
@@ -55,7 +55,7 @@ describe('throttle', () => {
 
     describe('should not be called', () => {
         test('1', () => {
-            const c = counter();
+            const c = new Counter();
 
             const [throttled, {block, reset}] = throttle(c.inc, 0);
 
@@ -73,7 +73,7 @@ describe('throttle', () => {
 
     describe('should work as promise', () => {
         test('1', async() => {
-            const c = counter();
+            const c = new Counter();
 
             const [throttled, {reset}] = throttle(c.inc, 0);
 

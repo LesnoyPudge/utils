@@ -1,4 +1,6 @@
 export * from './memoize'
 export * from './throttle'
-export * from './cache'
+export * from './Cache'
 export * from './debounce'
+export * from './SharedIntersectionObserver'
+export * from './SharedResizeObserver'

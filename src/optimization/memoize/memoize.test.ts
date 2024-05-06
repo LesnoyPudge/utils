@@ -1,11 +1,11 @@
 import { AnyFunction } from "ts-essentials";
-import {counter, memoize} from '@root'
+import { Counter, memoize} from '@root'
 
 
 
 describe('memoize', () => {
     describe('in case of encountering same args, memoized function should not be called', () => {
-        const {get, inc} = counter();
+        const {get, inc} = new Counter();
         const memoizedFunc = memoize((...args: any[]) => {
             inc()
             return 0;

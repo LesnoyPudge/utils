@@ -236,7 +236,7 @@
     },
     "javascript": {
         "formatter": {
-            "enabled": true,
+            "enabled": false,
             "arrowParentheses": "always",
             "attributePosition": "auto",
             "bracketSameLine": false,

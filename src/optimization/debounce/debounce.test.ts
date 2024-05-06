@@ -1,10 +1,10 @@
-import { counter, debounce, sleep } from "@root"
+import { Counter, debounce, sleep } from "@root"
 
 
 
 describe('debounce', () => {
     test('1', async() => {
-        const c = counter(0)
+        const c = new Counter()
 
         const debounced = debounce((val: number) => c.inc(val), 100)
 

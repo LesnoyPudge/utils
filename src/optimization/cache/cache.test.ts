@@ -1,4 +1,4 @@
-import { createCache } from "@root"
+import { Cache } from "@root"
 
 
 
@@ -6,7 +6,7 @@ import { createCache } from "@root"
 
 describe('cache', () => {
     test('base', () => {
-        const cache = createCache();
+        const cache = new Cache();
 
         cache.set([''], 1);
         cache.set([''], 2);

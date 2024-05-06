@@ -1,7 +1,7 @@
 
 
 
-type Key = any[];
+type Key = unknown[];
 
 type CacheLayerData<PossibleValues> = {
     isComputed: false;
@@ -34,7 +34,7 @@ class CacheLayer<PossibleValues> {
     }
 }
 
-class Cache<PossibleValues> {
+export class Cache<PossibleValues> {
     private layer: CacheLayer<PossibleValues> | undefined;
 
     private getOrCreateLayer(key: Key) {
@@ -84,7 +84,7 @@ class Cache<PossibleValues> {
         return !!this.getLayer(key)?.data.isComputed
     }
 
-    set<T extends PossibleValues>(key: Key, value: T): T {
+    set<Value extends PossibleValues>(key: Key, value: Value): Value {
         return this.getOrCreateLayer(key).setValue(value);
     }
 
@@ -120,5 +120,3 @@ class Cache<PossibleValues> {
         return size;
     }
 }
-
-export const createCache = <PossibleValues>() => new Cache<PossibleValues>();

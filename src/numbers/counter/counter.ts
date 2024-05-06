@@ -1,31 +1,97 @@
+import { ListenerStore, ListenerStoreCallback, autoBind } from "@root";
 
 
 
-export const counter = (
-    providedInitial = 0, 
-    providedStep = 1
-) => {
-    let initial = providedInitial;
-    let step = providedStep;
-    let count = initial;
+type Args = [value: number];
+type Store = ListenerStore<null, Args>;
+type StoreCallback = ListenerStoreCallback<Args>;
+
+export class Counter {
+    private count: number;
+    private initialCount: number;
+    private step: number;
+    private initialStep: number;
+    private listenerStore?: Store;
+
+    constructor(initialCount = 0, initialStep = 1) {
+        this.count = initialCount;
+        this.initialCount = initialCount;
+        this.step = initialStep;
+        this.initialStep = initialStep;
+
+        autoBind(this);
+    }
+
+    setCount(value: number) {
+        this.count = value;
+        this.listenerStore?.trigger(null, value);
+    }
+
+    set = this.setCount.bind(this);
+
+    getCount() {
+        return this.count;
+    }
+
+    get = this.getCount.bind(this);
     
-    const get = () => count;
-    const setCount = (amount: number) => count = amount;
-    const increase = (amount = step) => setCount(count + amount);
-    const decrease = (amount = step) => setCount(count - amount);
-    const reset = () => setCount(initial);
-    const setInitial = (newInitial: number) => initial = newInitial;
-    const setStep = (newStep: number) => step = newStep;
+    setInitialCount(value: number) {
+        this.initialCount = value;
+    }
 
-    return {
-        get,
-        increase,
-        decrease,
-        reset,
-        setCount,
-        setInitial,
-        setStep,
-        inc: increase,
-        dec: decrease,
+    getInitialCount() {
+        return this.initialCount;
+    }
+
+    setStep(value: number) {
+        this.step = value;
+    }
+
+    getStep() {
+        return this.step;
+    }
+
+    setInitialStep(value: number) {
+        this.initialStep = value; 
+    }
+
+    getInitialStep() {
+        return this.initialStep;
+    }
+
+    increase(value?: number) {
+        this.setCount(this.count + (value ?? this.step));
+    }
+
+    inc = this.increase.bind(this);
+
+    decrease(value?: number) {
+        this.setCount(this.count - (value ?? this.step))
+    }
+
+    dec = this.decrease.bind(this);
+
+    resetCount() {
+        this.setCount(this.initialCount);
+    }
+
+    resetStep() {
+        this.step = this.initialStep;
+    }
+
+    reset() {
+        this.resetCount()
+        this.resetStep()
+    }
+
+    onCountChange(cb: StoreCallback) {
+        if (!this.listenerStore) {
+            this.listenerStore = new ListenerStore();
+        }
+
+        const store = this.listenerStore;
+        store.add(null, cb);
+
+        return () => store.remove(null, cb);
     }
 }
