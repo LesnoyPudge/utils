@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "description": "lesnoypudge's utils",
     "main": "build/src/index.js",
     "types": "build/src/index.d.ts",
