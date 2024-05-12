@@ -1,4 +1,4 @@
-import { defaults } from "@root";
+import { KEY, defaults } from "@root";
 
 
 
@@ -32,10 +32,10 @@ const matchKeyCombos = (e: KeyboardEvent, keyCombos: KeyCombos) => {
     let isMatch = false;
 
     const activeKeys = Array.from(new Set([
-        e.altKey && 'alt', 
-        e.ctrlKey && 'control', 
-        e.shiftKey && 'shift',
-        e.metaKey && 'meta', 
+        e.altKey && KEY.Alt.toLowerCase(),
+        e.ctrlKey && KEY.Control.toLowerCase(), 
+        e.shiftKey && KEY.Shift.toLowerCase(),
+        e.metaKey && KEY.Meta.toLowerCase(), 
         e.key.toLowerCase(),
     ].filter(Boolean)));
 
@@ -93,7 +93,7 @@ const uniter = (maxCalls: number) => {
             let count = 0;
             let bail = count >= maxCalls;
             const event = e.nativeEvent ?? e;
-        
+
             handlers.forEach((handler) => {
                 if (bail) return;
 
