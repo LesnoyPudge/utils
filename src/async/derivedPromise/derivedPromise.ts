@@ -8,17 +8,17 @@ type Reject = (reason?: any) => void;
 
 type Executor<Result = any> = (res: Resolve<Result>, rej: Reject) => void;
 
-type Controls<Result> = {
+export type DerivedPromiseControls<Result> = {
     resolve: Resolve<Result>;
     reject: Reject,
 }
 
 export const derivedPromise = <
     Result = unknown, 
-    FN extends Executor = AnyFunction
+    FN extends Executor = AnyFunction<[Resolve<Result>, Reject], void>
 >(executor?: FN): [
     promise: Promise<Result>,
-    controls: Controls<Result>
+    controls: DerivedPromiseControls<Result>
 ] => {
     let resolve: Resolve<Result> = noop;
     let reject: Reject = noop;
@@ -33,7 +33,7 @@ export const derivedPromise = <
         reject = noop;
     })
 
-    const controls: Controls<Result> = {
+    const controls: DerivedPromiseControls<Result> = {
         resolve,
         reject,
     }
