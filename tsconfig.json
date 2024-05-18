@@ -5,7 +5,7 @@
         "build"
     ],
     "compilerOptions": {
-        "types": ["vitest/globals", "@total-typescript/ts-reset"],
+        "types": ["vitest/globals"],
         "lib": ["ESNext", "DOM"],
         "module": "ESNext",
         "target": "ESNext",
