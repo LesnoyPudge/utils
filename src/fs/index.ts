@@ -1,2 +1,2 @@
-export * from './getFolderTree'
+export * from './FolderTree'
 export * from './getNameParts'
