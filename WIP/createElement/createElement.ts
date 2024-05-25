@@ -38,33 +38,35 @@ type Options<ProvidedTag extends Tag> = Partial<
     >
 >;
 
-export const createElement = () => {}
+// export const createElement = () => {}
 
-// export const createElement = <ProvidedTag extends Tag>(
-//     tag: ProvidedTag, 
-//     options?: Options<ProvidedTag>,
-// ): ElementWithExtendedChildren<ProvidedTag> => {
-//     const el = document.createElement(tag) as ElementWithExtendedChildren<
-//         ProvidedTag
-//     >;
+export const createElement = <ProvidedTag extends Tag>(
+    tag: ProvidedTag, 
+    options?: Options<ProvidedTag>,
+): ElementWithExtendedChildren<ProvidedTag> => {
+    const el = document.createElement(tag) as ElementWithExtendedChildren<
+        ProvidedTag
+    >;
 
-//     if (!options) return el;
+    if (!options) return el;
 
-//     (
-//         (Object.entries(options) as [
-//             keyof TagElement<ProvidedTag>, 
-//             ValueOf<ElementWithExtendedChildren<ProvidedTag>>
-//         ][]).forEach(([key, value]) => {
-//             if (key === 'children' && isChildrenList(value)) {
-//                 el.append(...value);
-//                 return;
-//             }
+    (
+        (Object.entries(options) as [
+            keyof TagElement<ProvidedTag>, 
+            ValueOf<ElementWithExtendedChildren<ProvidedTag>>
+        ][]).forEach(([key, value]) => {
+            // if (key === 'children' && isChildrenList(value)) {
+            //     el.append(...value);
+            //     return;
+            // }
 
-//             (el as TagElement<ProvidedTag>)[
-//                 key
-//             ] = value as ValueOf<TagElement<ProvidedTag>>;
-//         })
-//     );
+            // el.setAttribute(key, value)
 
-//     return el;
-// };
+            // (el as TagElement<ProvidedTag>)[
+            //     key
+            // ] = value as ValueOf<TagElement<ProvidedTag>>;
+        })
+    );
+
+    return el;
+};

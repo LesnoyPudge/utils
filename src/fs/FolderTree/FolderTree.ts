@@ -79,7 +79,21 @@ export class FolderTree {
         });
     }
 
-    traverse() {}
+    private traverseFolder(
+        folder: Folder, 
+        cb: (value: Folder | File) => void
+    ) {
+        cb(folder);
+        folder.files.forEach(cb);
+        folder.folders.forEach((_folder) => {
+            this.traverseFolder(_folder, cb);    
+        })
+    }
+
+    traverse(cb: (value: Folder | File) => void) {
+        if (!this.data) return;
+        this.traverseFolder(this.data, cb);
+    }
 
     isEmpty() {
         return !(this.data?.files.length || this.data?.folders.length);

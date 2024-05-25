@@ -8,6 +8,9 @@ export default defineConfig({
     test: {
         globals: true,   
         environment: 'jsdom',
-        exclude: ['./WIP', './node_modules']
+        exclude: [
+            // './WIP', 
+            './node_modules'
+        ]
     },
 })

@@ -1,4 +1,4 @@
-import { FolderTree } from "@root";
+import { Counter, FolderTree } from "@root";
 
 
 
@@ -12,7 +12,12 @@ describe('FolderTree', () => {
 
     test('2', () => {
         const tree = new FolderTree('.');
-        
+        const c = new Counter();
+
         expect(tree.isEmpty()).toBe(false);
+        
+        tree.traverse(() => c.inc());
+
+        expect(c.get()).toBeGreaterThan(0);
     })
 })
