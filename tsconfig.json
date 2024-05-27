@@ -5,7 +5,7 @@
         "build"
     ],
     "compilerOptions": {
-        "types": ["vitest/globals"],
+        "types": ["vitest/globals", "@lesnoypudge/types-global-base"],
         "lib": ["ESNext", "DOM"],
         "module": "ESNext",
         "target": "ESNext",

@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "7.3.0",
+    "version": "7.4.0",
     "description": "lesnoypudge's utils",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -11,13 +11,11 @@
     ],
     "scripts": {
         "nm:clear": "del-cli node_modules",
-        "build:rollup": "rollup -c --bundleConfigAsCjs",
         "build": "del-cli build && tsc --project tsconfig.json && tsc-alias -p tsconfig.json && node fix-imports.js && del-cli build/**/*.test.js && del-cli build/**/*.config.js",
         "test": "vitest",
         "test:watch": "vitest --watch",
         "publish": "npm publish --access public",
-        "deploy": "git add . && git commit -m 'update' && git push && git status",
-        "lint": "npx @biomejs/biome lint ./src"
+        "deploy": "git add . && git commit -m 'update' && git push && git status"
     },
     "keywords": [
         "lesnoypudge",
@@ -26,13 +24,13 @@
     "author": "LesnoyPudge",
     "license": "ISC",
     "dependencies": {
+        "@lesnoypudge/types-global-base": "^1.1.5",
         "auto-bind": "^5.0.1",
         "defaults": "^3.0.0",
         "shallow-equal": "^3.1.0",
         "ts-essentials": "^10.0.0"
     },
     "devDependencies": {
-        "@total-typescript/ts-reset": "^0.5.1",
         "@types/jest": "^29.5.12",
         "@types/jsdom": "^21.1.6",
         "del-cli": "^5.1.0",
