@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "7.4.1",
+    "version": "7.4.2",
     "description": "lesnoypudge's utils",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -15,7 +15,8 @@
         "test": "vitest",
         "test:watch": "vitest --watch",
         "publish": "npm publish --access public",
-        "deploy": "git add . && git commit -m 'update' && git push && git status"
+        "deploy": "git add . && git commit -m 'update' && git push && git status",
+        "build2": "del-cli build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json"
     },
     "keywords": [
         "lesnoypudge",

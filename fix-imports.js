@@ -28,6 +28,7 @@ function addExtensions(filePath) {
 }
 
 function processDirectory(directory) {
+    console.log('fixing path aliases')
     const files = readdirSync(directory);
     files.forEach((file) => {
         const filePath = join(directory, file);
