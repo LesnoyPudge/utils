@@ -10,7 +10,7 @@ export default defineConfig({
         environment: 'jsdom',
         exclude: [
             // './WIP', 
-            './node_modules'
+            'node_modules'
         ]
     },
 })

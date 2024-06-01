@@ -1,4 +1,4 @@
-import { NonEmptyArray } from "ts-essentials";
+import { NonEmptyArray, Prettify } from "ts-essentials";
 import { AnyRecord } from "ts-essentials/dist/any-record";
 
 
@@ -9,7 +9,7 @@ export const pick = <
 >(
     source: _Source,
     ...keys: NonEmptyArray<_Keys>
-): Pick<_Source,  _Keys> => {
+): Prettify<Pick<_Source,  _Keys>> => {
     const output = keys.reduce<Pick<_Source, _Keys>>((acc, cur) => {
         acc[cur] = source[cur]
         return acc;

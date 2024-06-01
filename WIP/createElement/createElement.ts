@@ -1,4 +1,4 @@
-import { DeepOmit, ValueOf, Writable } from "ts-essentials";
+import { DeepOmit, StrictOmit, ValueOf, Writable } from "ts-essentials";
 import { AnyRecord } from "ts-essentials/dist/any-record";
 
 
@@ -40,33 +40,35 @@ type Options<ProvidedTag extends Tag> = Partial<
 
 // export const createElement = () => {}
 
+type Options2<_ProvidedTag extends Tag> = Partial<{
+    [_Key in keyof HTMLElementTagNameMap[_ProvidedTag]]: (
+        HTMLElementTagNameMap[_ProvidedTag][_Key] extends string
+            ? HTMLElementTagNameMap[_ProvidedTag][_Key]
+            : never
+    )
+}> & Record<`data-${string}`, string>;
+
 export const createElement = <ProvidedTag extends Tag>(
     tag: ProvidedTag, 
-    options?: Options<ProvidedTag>,
-): ElementWithExtendedChildren<ProvidedTag> => {
-    const el = document.createElement(tag) as ElementWithExtendedChildren<
-        ProvidedTag
-    >;
+    options?: Options2<ProvidedTag>,
+    children?: HTMLElement[],
+): HTMLElementTagNameMap[ProvidedTag] => {
+    const el = document.createElement(tag);
 
-    if (!options) return el;
-
-    (
+    if (options) {
         (Object.entries(options) as [
             keyof TagElement<ProvidedTag>, 
-            ValueOf<ElementWithExtendedChildren<ProvidedTag>>
+            ValueOf<HTMLElementTagNameMap[ProvidedTag]>
         ][]).forEach(([key, value]) => {
-            // if (key === 'children' && isChildrenList(value)) {
-            //     el.append(...value);
-            //     return;
-            // }
-
-            // el.setAttribute(key, value)
-
-            // (el as TagElement<ProvidedTag>)[
-            //     key
-            // ] = value as ValueOf<TagElement<ProvidedTag>>;
+            el.setAttribute(String(key), String(value));
+        });
+    }
+    
+    if (children?.length) {
+        children.forEach((child) => {
+            el.appendChild(child);
         })
-    );
+    }
 
     return el;
 };

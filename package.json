@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "7.4.2",
+    "version": "7.5.0",
     "description": "lesnoypudge's utils",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -16,7 +16,10 @@
         "test:watch": "vitest --watch",
         "publish": "npm publish --access public",
         "deploy": "git add . && git commit -m 'update' && git push && git status",
-        "build2": "del-cli build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json"
+        "build2": "del-cli build && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+        "build3": "unbuild",
+        "build:clear": "del-cli build",
+        "formatter:config": "formatter-config"
     },
     "keywords": [
         "lesnoypudge",
@@ -25,11 +28,13 @@
     "author": "LesnoyPudge",
     "license": "ISC",
     "dependencies": {
-        "@lesnoypudge/types-global-base": "^1.1.5",
+        "@lesnoypudge/formatter-config": "^1.0.5",
+        "@lesnoypudge/types-global-base": "^1.2.0",
         "auto-bind": "^5.0.1",
         "defaults": "^3.0.0",
         "shallow-equal": "^3.1.0",
-        "ts-essentials": "^10.0.0"
+        "ts-essentials": "^10.0.0",
+        "unbuild": "^2.0.0"
     },
     "devDependencies": {
         "@types/jest": "^29.5.12",

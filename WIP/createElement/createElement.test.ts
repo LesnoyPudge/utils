@@ -4,11 +4,10 @@ import { createElement } from "./createElement";
 
 describe('createElement', () => {
     test('1', () => {
-        // const el = createElement('div', {
-        //     // @ts-ignore
-        //     'data-custom': 'custom'
-        // });
+        const el = createElement('div', {
+            'data-custom': 'custom',
+        });
 
-        // expect(el.dataset['custom']).toBe('custom')
+        expect(el.dataset['custom']).toBe('custom')
     })
 })
