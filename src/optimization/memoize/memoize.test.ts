@@ -1,4 +1,4 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from '@lesnoypudge/types-utils-base';
 import { Counter, memoize} from '@root'
 
 
@@ -44,7 +44,7 @@ describe('memoize', () => {
         })
 
         test('same function as arg', () => {
-            const fn = memoize((fn: AnyFunction) => fn())
+            const fn = memoize((fn: T.AnyFunction) => fn())
             const fn2 = () => Math.random()
    
             expect(fn(fn2)).toBe(fn(fn2));
@@ -68,7 +68,7 @@ describe('memoize', () => {
 
     describe('results with different arguments should be different', () => {
         test('inline function as arg', () => {
-            const fn = memoize((fn: AnyFunction) => fn())
+            const fn = memoize((fn: T.AnyFunction) => fn())
 
             expect(
                 fn(() => Math.random())

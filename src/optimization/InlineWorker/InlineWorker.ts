@@ -1,5 +1,5 @@
+import { T } from "@lesnoypudge/types-utils-base";
 import { DerivedPromiseControls, autoBind, derivedPromise, noop } from "@root";
-import { AnyFunction } from "ts-essentials";
 
 
 
@@ -13,14 +13,14 @@ type QueueItem<Args extends unknown[], Return> = (
 export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
     private worker: Worker | null;
     private queue: QueueItem<Arg, Return>[];
-    private fn: AnyFunction<Arg, Return>;
-    private onSuccess: AnyFunction<[Return]>;
-    private onError: AnyFunction<[ErrorEvent]>;
+    private fn: T.AnyFunction<Arg, Return>;
+    private onSuccess: T.AnyFunction<[Return]>;
+    private onError: T.AnyFunction<[ErrorEvent]>;
 
     constructor(
-        fn: AnyFunction<Arg, Return>,
-        onSuccess: AnyFunction<[Return]> = noop,
-        onError: AnyFunction<[ErrorEvent]> = noop,
+        fn: T.AnyFunction<Arg, Return>,
+        onSuccess: T.AnyFunction<[Return]> = noop,
+        onError: T.AnyFunction<[ErrorEvent]> = noop,
     ) {
         this.worker = null;
         this.queue = [];
@@ -31,7 +31,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
         autoBind(this);
     }
 
-    private createWorker(fn: AnyFunction<Arg, Return>) {
+    private createWorker(fn: T.AnyFunction<Arg, Return>) {
         const workerCode = (`
             const workerFunction = (${fn});
         

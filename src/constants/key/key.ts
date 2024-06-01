@@ -1,8 +1,8 @@
-import { ValueOf } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
-export type KEY = ValueOf<typeof KEY>;
+export type KEY = T.ValueOf<typeof KEY>;
 
 export const KEY = {
     Space: ' ',

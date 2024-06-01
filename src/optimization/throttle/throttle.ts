@@ -1,4 +1,4 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 import { noop } from "@root";
 
 
@@ -8,7 +8,7 @@ type Controls = {
     reset: () => void;
 }
 
-export const throttle = <FN extends AnyFunction<any[], void>>(
+export const throttle = <FN extends T.AnyFunction<any[], void>>(
     fn: FN, 
     delayMS: number
 ): [

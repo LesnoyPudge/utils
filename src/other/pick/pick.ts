@@ -1,15 +1,14 @@
-import { NonEmptyArray, Prettify } from "ts-essentials";
-import { AnyRecord } from "ts-essentials/dist/any-record";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
 export const pick = <
-    _Source extends AnyRecord, 
+    _Source extends T.AnyRecord, 
     _Keys extends keyof _Source,
 >(
     source: _Source,
-    ...keys: NonEmptyArray<_Keys>
-): Prettify<Pick<_Source,  _Keys>> => {
+    ...keys: T.NonEmptyArray<_Keys>
+): T.Prettify<Pick<_Source,  _Keys>> => {
     const output = keys.reduce<Pick<_Source, _Keys>>((acc, cur) => {
         acc[cur] = source[cur]
         return acc;

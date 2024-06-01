@@ -1,9 +1,9 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 import { Cache } from "@root";
 
 
 
-export const memoize = <FN extends AnyFunction>(fn: FN) => {
+export const memoize = <FN extends T.AnyFunction>(fn: FN) => {
     const cache = new Cache<ReturnType<FN>>();
 
     return (...args: Parameters<FN>): ReturnType<FN> => {

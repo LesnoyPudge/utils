@@ -1,5 +1,4 @@
-import { DeepOmit, StrictOmit, ValueOf, Writable } from "ts-essentials";
-import { AnyRecord } from "ts-essentials/dist/any-record";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
@@ -10,14 +9,14 @@ type TagElement<ProvidedTag extends Tag> = HTMLElementTagNameMap[ProvidedTag];
 type Child = Node | string;
 
 type Override<
-    Source extends AnyRecord, 
+    Source extends T.AnyRecord, 
     Key extends keyof Source,
     NewValue,
 > = {
     [K in keyof Source]: K extends Key ? NewValue : Source[K];
 };
 
-type ElementWithExtendedChildren<ProvidedTag extends Tag> = Writable<
+type ElementWithExtendedChildren<ProvidedTag extends Tag> = T.Writable<
     Override<
         HTMLElementTagNameMap[ProvidedTag],
         'children',
@@ -32,7 +31,7 @@ const isChildrenList = (value: unknown): value is Child[] => {
 }
 
 type Options<ProvidedTag extends Tag> = Partial<
-    DeepOmit<
+    T.DeepOmit<
         ElementWithExtendedChildren<ProvidedTag>, 
         Record<string, string | null | undefined>
     >
@@ -58,7 +57,7 @@ export const createElement = <ProvidedTag extends Tag>(
     if (options) {
         (Object.entries(options) as [
             keyof TagElement<ProvidedTag>, 
-            ValueOf<HTMLElementTagNameMap[ProvidedTag]>
+            T.ValueOf<HTMLElementTagNameMap[ProvidedTag]>
         ][]).forEach(([key, value]) => {
             el.setAttribute(String(key), String(value));
         });

@@ -1,9 +1,9 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
 export type ListenerStoreCallback<Args extends unknown[]> = (
-    AnyFunction<Args, void>
+    T.AnyFunction<Args, void>
 );
 
 export class ListenerStore<

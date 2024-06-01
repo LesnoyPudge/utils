@@ -1,5 +1,5 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
-export const noop: AnyFunction<any[], void> = () => {};
+export const noop: T.AnyFunction<any[], void> = () => {};

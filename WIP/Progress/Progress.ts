@@ -1,4 +1,4 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 import { ListenerStore, autoBind, clamp } from "../../src";
 
 
@@ -22,13 +22,13 @@ class ObservableValue<Value> {
         this._listenerStore.trigger(null, this._value);
     }
 
-    subscribe(cb: AnyFunction<[Value]>) {
+    subscribe(cb: T.AnyFunction<[Value]>) {
         this._listenerStore.add(null, cb);
 
         return () => this.unsubscribe(cb);
     }
 
-    unsubscribe(cb: AnyFunction<[Value]>) {
+    unsubscribe(cb: T.AnyFunction<[Value]>) {
         this._listenerStore.remove(null, cb);
     }
 }

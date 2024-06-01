@@ -1,5 +1,5 @@
+import { T } from "@lesnoypudge/types-utils-base";
 import { noop } from "@root";
-import { AnyFunction } from "ts-essentials";
 
 
 
@@ -15,7 +15,7 @@ export type DerivedPromiseControls<Result> = {
 
 export const derivedPromise = <
     Result = unknown, 
-    FN extends Executor = AnyFunction<[Resolve<Result>, Reject], void>
+    FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>
 >(executor?: FN): [
     promise: Promise<Result>,
     controls: DerivedPromiseControls<Result>

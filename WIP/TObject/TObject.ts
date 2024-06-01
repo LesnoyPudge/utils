@@ -1,21 +1,20 @@
-import { AnyRecord } from "ts-essentials/dist/any-record";
+import { T } from "@lesnoypudge/types-utils-base";
 import { pick } from "../../src";
-import { MergeN, NonEmptyArray, Prettify, StrictOmit } from "ts-essentials";
 
 
 export class TObject {
     static shallowClone<
-        _Source extends AnyRecord
+        _Source extends T.AnyRecord
     >(
         source: _Source
-    ): Prettify<_Source> {
+    ): T.Prettify<_Source> {
         return Object.assign({}, source);
     }
 
     static pick = pick;
 
     static keys<
-        _Source extends AnyRecord,
+        _Source extends T.AnyRecord,
     >(
         source: _Source,
     ): keyof _Source {
@@ -23,12 +22,12 @@ export class TObject {
     }
 
     static omit<
-        _Source extends AnyRecord,
+        _Source extends T.AnyRecord,
         _Keys extends keyof _Source,
     >(
         source: _Source,
-        ...keys: NonEmptyArray<_Keys>
-    ): Prettify<StrictOmit<_Source, _Keys>> {
+        ...keys: T.NonEmptyArray<_Keys>
+    ): T.Prettify<T.StrictOmit<_Source, _Keys>> {
         return (
             Object.keys(source)
                 .filter((key) => !keys.includes(key))
@@ -40,7 +39,7 @@ export class TObject {
     }
 
     static shallowMerge<
-        _Sources extends AnyRecord
+        _Sources extends T.AnyRecord
     >(
         ...sources: [_Sources, _Sources, ..._Sources[]]
     ): MergeN<> {

@@ -1,9 +1,9 @@
-import { AnyFunction } from "ts-essentials";
+import { T } from "@lesnoypudge/types-utils-base";
 
 
 
 export const debounce = <Args extends unknown[]>(
-    fn: AnyFunction<Args>,
+    fn: T.AnyFunction<Args>,
     delay: number,
 ) => {
     let timeout: ReturnType<typeof setTimeout>;

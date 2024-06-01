@@ -30,10 +30,10 @@
     "dependencies": {
         "@lesnoypudge/formatter-config": "^1.0.5",
         "@lesnoypudge/types-global-base": "^1.2.0",
+        "@lesnoypudge/types-utils-base": "^1.1.0",
         "auto-bind": "^5.0.1",
         "defaults": "^3.0.0",
         "shallow-equal": "^3.1.0",
-        "ts-essentials": "^10.0.0",
         "unbuild": "^2.0.0"
     },
     "devDependencies": {
