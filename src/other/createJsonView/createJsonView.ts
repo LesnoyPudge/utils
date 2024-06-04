@@ -10,7 +10,7 @@ type Options<_AsHtml extends boolean> = {
 };
 
 type Return<_AsHtml extends boolean> = (
-    (_AsHtml extends true ? HTMLDivElement : string) 
+    (_AsHtml extends true ? HTMLPreElement : string) 
     | null
 );
 
@@ -102,14 +102,10 @@ export const createJsonView = <_AsHtml extends boolean = false>(
 
     try {
         const obj = typeof data === 'string' ? JSON.parse(data) : data; 
-        const view = (
-            `<pre>
-                ${xss(pretty(obj, _options))}
-            </pre>`
-        );
+        const view = xss(pretty(obj, _options));
 
         if (asHTML) {
-            const el = document.createElement('div')
+            const el = document.createElement('pre')
             el.className = className;
             el.innerHTML = view;
             
@@ -117,9 +113,9 @@ export const createJsonView = <_AsHtml extends boolean = false>(
         }
 
         return (
-            `<div class="${className}">
+            `<pre class="${className}">
                 ${view}
-            </div>`
+            </pre>`
         ) as Return<_AsHtml>;
     } catch (error) {
         return null;
