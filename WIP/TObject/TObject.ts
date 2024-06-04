@@ -10,6 +10,8 @@ export class TObject {
     ): T.Prettify<_Source> {
         return Object.assign({}, source);
     }
+    
+    static deepClone() {}
 
     static pick = pick;
 
