@@ -11,7 +11,7 @@ export const omit = <
 ): T.Prettify<Omit<_Source, _Keys>> => {
     return Object.keys(source).reduce<Omit<_Source, _Keys>>((acc, cur) => {
         if (keys.includes(cur)) return acc;
-        // @ts-expect-error
+        // @ts-ignore
         acc[cur] = source[cur];
         return acc;
     }, {});
