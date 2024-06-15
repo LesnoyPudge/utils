@@ -24,6 +24,8 @@ export class ListenerStore<
         }
 
         listeners.add(listener);
+
+        return () => this.remove(key, listener);
     }
 
     remove(key: Key, listener: ListenerStoreCallback<Args>) {
