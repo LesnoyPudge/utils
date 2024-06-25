@@ -1,4 +1,4 @@
-import { ListenerStore, ListenerStoreCallback } from "@root";
+import { ListenerStore, ListenerStoreCallback } from '@root';
 
 
 
@@ -10,18 +10,18 @@ export class SharedIntersectionObserver {
     listeners: Store;
     observer: IntersectionObserver;
 
-    constructor(options?: IntersectionObserverInit ) {
+    constructor(options?: IntersectionObserverInit) {
         this.listeners = new ListenerStore();
         this.observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                this.listeners.trigger(entry.target, entry)
-            })
+                this.listeners.trigger(entry.target, entry);
+            });
         }, options);
     }
 
     observe(element: Element, listener: StoreCallback) {
         this.listeners.add(element, listener);
-        this.observer.observe(element)
+        this.observer.observe(element);
     }
 
     unobserve(element: Element, listener: StoreCallback) {

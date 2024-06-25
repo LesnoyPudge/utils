@@ -14,12 +14,12 @@ const fallback = (text: string) => {
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-    console.log(document)
+    console.log(document);
     document.execCommand('copy');
     document.body.removeChild(textArea);
 
     if (previousFocusElement) {
-        (previousFocusElement as HTMLElement)?.focus();
+        (previousFocusElement as HTMLElement).focus();
     }
 };
 

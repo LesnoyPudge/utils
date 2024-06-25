@@ -1,4 +1,4 @@
-import { createElement } from "./createElement";
+import { createElement } from './createElement';
 
 
 
@@ -8,6 +8,6 @@ describe('createElement', () => {
             'data-custom': 'custom',
         });
 
-        expect(el.dataset['custom']).toBe('custom')
-    })
-})
+        expect(el.dataset.custom).toBe('custom');
+    });
+});

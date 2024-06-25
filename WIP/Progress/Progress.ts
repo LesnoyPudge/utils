@@ -1,5 +1,5 @@
-import { T } from "@lesnoypudge/types-utils-base";
-import { ListenerStore, autoBind, clamp } from "../../src";
+import { T } from '@lesnoypudge/types-utils-base';
+import { ListenerStore, autoBind, clamp } from '../../src';
 
 
 
@@ -10,13 +10,13 @@ class ObservableValue<Value> {
     constructor(initialValue: Value) {
         this._value = initialValue;
         this._listenerStore = new ListenerStore();
-        autoBind(this)
+        autoBind(this);
     }
-    
+
     get() {
         return this._value;
     }
-    
+
     set(newValue: Value) {
         this._value = newValue;
         this._listenerStore.trigger(null, this._value);
@@ -65,7 +65,7 @@ export class Progress {
 //     get() {
 //         return this._value;
 //     }
-    
+
 //     set(newValue: number) {
 //         this._value = clamp(0, newValue, 1);
 //         this._listenerStore.trigger(null, this._value);
@@ -87,5 +87,5 @@ export class Progress {
 
 //     unsubscribe(cb: ListenerCallback) {
 //         this._listenerStore.remove(null, cb);
-//     }    
+//     }
 // }

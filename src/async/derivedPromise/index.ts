@@ -1,1 +1,1 @@
-export * from './derivedPromise'
+export * from './derivedPromise';

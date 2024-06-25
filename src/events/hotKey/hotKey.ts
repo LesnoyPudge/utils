@@ -1,4 +1,4 @@
-import { KEY, defaults } from "@root";
+import { KEY, defaults } from '@root';
 
 
 
@@ -10,7 +10,7 @@ type HotKeyOptions = {
     prevent?: boolean;
     stop?: boolean;
     stopImmediate?: boolean;
-}
+};
 
 type HotKey = (action: Action, options?: HotKeyOptions) => Handler;
 
@@ -20,72 +20,74 @@ type Make = (...keys: KeyCombos) => HotKey;
 
 type EventLike = KeyboardEvent & {
     nativeEvent?: KeyboardEvent;
-}
+};
 
-const defaultOptions: Required<HotKeyOptions>  = {
+const defaultOptions: Required<HotKeyOptions> = {
     prevent: false,
     stop: false,
     stopImmediate: false,
-}
+};
 
-const matchKeyCombos = (e: KeyboardEvent, keyCombos: KeyCombos) => {
-    let isMatch = false;
+const matcher = (keyCombos: KeyCombos) => {
+    return (e: KeyboardEvent) => {
+        let isMatch = false;
 
-    const activeKeys = Array.from(new Set([
-        e.altKey && KEY.Alt.toLowerCase(),
-        e.ctrlKey && KEY.Control.toLowerCase(), 
-        e.shiftKey && KEY.Shift.toLowerCase(),
-        e.metaKey && KEY.Meta.toLowerCase(), 
-        e.key.toLowerCase(),
-    ].filter(Boolean)));
+        const activeKeys = Array.from(new Set([
+            e.altKey && KEY.Alt.toLowerCase(),
+            e.ctrlKey && KEY.Control.toLowerCase(),
+            e.shiftKey && KEY.Shift.toLowerCase(),
+            e.metaKey && KEY.Meta.toLowerCase(),
+            e.key.toLowerCase(),
+        ].filter(Boolean)));
 
-    keyCombos.forEach((keyCombo) => {
-        if (isMatch) return;
-        if (activeKeys.length !== keyCombo.length) return;
-    
-        let matchCount = 0;
-        let bail = false;
-
-        keyCombo.forEach((key) => {
+        keyCombos.forEach((keyCombo) => {
             if (isMatch) return;
-            if (bail) return;
+            if (activeKeys.length !== keyCombo.length) return;
 
-            if (activeKeys.includes(key.toLowerCase())) {
-                return matchCount++;
-            }
+            let matchCount = 0;
+            let bail = false;
 
-            bail = true;
-        })
+            keyCombo.forEach((key) => {
+                if (isMatch) return;
+                if (bail) return;
 
-        isMatch = matchCount === keyCombo.length;
-    })
+                if (activeKeys.includes(key.toLowerCase())) {
+                    return matchCount++;
+                }
 
-    return isMatch;
-}
+                bail = true;
+            });
+
+            isMatch = matchCount === keyCombo.length;
+        });
+
+        return isMatch;
+    };
+};
 
 const make: Make = (...keyCombos) => {
     return (action, options = defaultOptions) => {
-        options = defaults(options, defaultOptions)
-        
+        options = defaults(options, defaultOptions);
+
         return (e) => {
-            const isMatch = matchKeyCombos(e, keyCombos);
+            const isMatch = matcher(keyCombos)(e);
             if (!isMatch) return false;
- 
-            options.prevent && e.preventDefault()
+
+            options.prevent && e.preventDefault();
             options.stop && e.stopPropagation();
-            options.stopImmediate && e.stopImmediatePropagation()
+            options.stopImmediate && e.stopImmediatePropagation();
 
             try {
-                action(e)
+                action(e);
             } catch (error) {
                 console.error(error);
                 return false;
             }
 
             return true;
-        }
-    }
-}
+        };
+    };
+};
 
 const uniter = (maxCalls: number) => {
     return (...handlers: Handler[]) => {
@@ -97,19 +99,20 @@ const uniter = (maxCalls: number) => {
             handlers.forEach((handler) => {
                 if (bail) return;
 
-                const isHandled = handler(event)
+                const isHandled = handler(event);
                 if (isHandled) count++;
 
                 bail = count >= maxCalls;
             });
 
             return !!count;
-        }
-    }
-}
+        };
+    };
+};
 
 export const hotKey = {
     make,
     many: uniter(Infinity),
     one: uniter(1),
-}
+    matcher,
+};

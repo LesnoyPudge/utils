@@ -1,1 +1,1 @@
-export * from './rgbToHex'
+export * from './rgbToHex';

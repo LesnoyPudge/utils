@@ -1,4 +1,4 @@
-import { ListenerStore, ListenerStoreCallback, autoBind } from "@root";
+import { ListenerStore, ListenerStoreCallback, autoBind } from '@root';
 
 
 
@@ -34,7 +34,7 @@ export class Counter {
     }
 
     get = this.getCount.bind(this);
-    
+
     setInitialCount(value: number) {
         this.initialCount = value;
     }
@@ -52,7 +52,7 @@ export class Counter {
     }
 
     setInitialStep(value: number) {
-        this.initialStep = value; 
+        this.initialStep = value;
     }
 
     getInitialStep() {
@@ -66,7 +66,7 @@ export class Counter {
     inc = this.increase.bind(this);
 
     decrease(value?: number) {
-        this.setCount(this.count - (value ?? this.step))
+        this.setCount(this.count - (value ?? this.step));
     }
 
     dec = this.decrease.bind(this);
@@ -80,8 +80,8 @@ export class Counter {
     }
 
     reset() {
-        this.resetCount()
-        this.resetStep()
+        this.resetCount();
+        this.resetStep();
     }
 
     onCountChange(cb: StoreCallback) {

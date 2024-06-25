@@ -1,4 +1,4 @@
-import { eslintConfigBase } from "@lesnoypudge/eslint-base-config";
+import { eslintConfigBase } from '@lesnoypudge/eslint-base-config';
 
 
 

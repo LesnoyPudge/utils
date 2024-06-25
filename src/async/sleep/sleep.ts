@@ -6,5 +6,5 @@ export const sleep = (durationMS = 0) => {
         setTimeout(() => {
             resolve();
         }, durationMS);
-    })
-}
+    });
+};

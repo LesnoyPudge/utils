@@ -1,1 +1,1 @@
-export * from './chance'
+export * from './chance';

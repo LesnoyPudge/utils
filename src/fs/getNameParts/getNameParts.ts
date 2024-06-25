@@ -4,7 +4,7 @@
 type Parts = {
     name: string;
     ext: string;
-}
+};
 
 export const getNameParts = (fileName: string): Parts | null => {
     const splittedName = fileName.split('.');
@@ -19,4 +19,4 @@ export const getNameParts = (fileName: string): Parts | null => {
         name,
         ext,
     };
-}
+};

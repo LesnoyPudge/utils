@@ -1,17 +1,17 @@
-import { sleep } from "@root"
+import { sleep } from '@root';
 
 
 
 describe('sleep', () => {
-    test('1', async() => {
+    test('1', async () => {
         const startTime = performance.now();
 
         await sleep();
 
         expect(performance.now()).toBeGreaterThan(startTime);
-    })
+    });
 
-    test('2', async() => {
+    test('2', async () => {
         const startTime = performance.now();
         const duration = 100;
         const expectedTime = startTime + (duration * 0.9);
@@ -19,5 +19,5 @@ describe('sleep', () => {
         await sleep(duration);
 
         expect(performance.now()).toBeGreaterThan(expectedTime);
-    })
-})
+    });
+});

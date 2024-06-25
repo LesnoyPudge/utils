@@ -1,16 +1,16 @@
-import { T } from "@lesnoypudge/types-utils-base";
-import { pick } from "../../src";
+import { T } from '@lesnoypudge/types-utils-base';
+import { pick } from '../../src';
 
 
 export class TObject {
     static shallowClone<
-        _Source extends T.AnyRecord
+        _Source extends T.AnyRecord,
     >(
-        source: _Source
+        source: _Source,
     ): T.Prettify<_Source> {
         return Object.assign({}, source);
     }
-    
+
     static deepClone() {}
 
     static pick = pick;
@@ -41,7 +41,7 @@ export class TObject {
     }
 
     static shallowMerge<
-        _Sources extends T.AnyRecord
+        _Sources extends T.AnyRecord,
     >(
         ...sources: [_Sources, _Sources, ..._Sources[]]
     ): MergeN<> {
@@ -52,23 +52,23 @@ export class TObject {
 
 type Some1 = {
     data: 'some';
-    wow: 'no'
-}
+    wow: 'no';
+};
 
 type Some2 = Pick<Some1, 'data'> & {
     extra: 5;
-}
+};
 
 type Some3 = StrictOmit<Some1, 'data'>;
 
 type Some4 = Some2 & Some3;
 
 const qwe: Some4 = {
-    data: "some",
+    data: 'some',
     extra: 5,
-    wow: "no",
+    wow: 'no',
 };
 
-const zxc1 = TObject.shallowClone(qwe)
-const zxc2 = TObject.pick(qwe, 'data')
-const zxc3 = TObject.shallowMerge({}, qwe, {})
+const zxc1 = TObject.shallowClone(qwe);
+const zxc2 = TObject.pick(qwe, 'data');
+const zxc3 = TObject.shallowMerge({}, qwe, {});

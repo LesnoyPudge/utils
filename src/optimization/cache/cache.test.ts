@@ -1,4 +1,4 @@
-import { Cache } from "@root"
+import { Cache } from '@root';
 
 
 
@@ -16,7 +16,7 @@ describe('cache', () => {
         cache.set([() => {}], 6);
 
         const obj = {};
-        
+
         cache.set(['', {}], 7);
         cache.set(['', obj], 8);
         cache.set(['', obj], 9);
@@ -28,5 +28,5 @@ describe('cache', () => {
         cache.set([], 15);
 
         expect(cache.getSize()).toBe(12);
-    })
-})
+    });
+});

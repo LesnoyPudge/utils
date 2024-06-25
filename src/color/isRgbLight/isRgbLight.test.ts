@@ -1,4 +1,4 @@
-import { isRgbLight } from "./isRgbLight";
+import { isRgbLight } from './isRgbLight';
 
 
 
@@ -9,5 +9,5 @@ describe('isRgbLight', () => {
 
         expect(isRgbLight(colorWhite)).toBe(true);
         expect(isRgbLight(colorBlack)).toBe(false);
-    })
-})
+    });
+});

@@ -1,1 +1,1 @@
-export * from './createJsonView'
+export * from './createJsonView';

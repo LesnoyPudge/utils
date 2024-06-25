@@ -1,4 +1,4 @@
-import { T } from "@lesnoypudge/types-utils-base";
+import { T } from '@lesnoypudge/types-utils-base';
 
 
 
@@ -7,17 +7,17 @@ export type ListenerStoreCallback<Args extends unknown[]> = (
 );
 
 export class ListenerStore<
-    Key, 
+    Key,
     Args extends unknown[],
 > {
     private store: Map<Key, Set<ListenerStoreCallback<Args>>>;
 
     constructor() {
-        this.store = new Map()
+        this.store = new Map();
     }
 
     add(key: Key, listener: ListenerStoreCallback<Args>) {
-        let listeners = this.store.get(key)
+        let listeners = this.store.get(key);
         if (!listeners) {
             listeners = new Set();
             this.store.set(key, listeners);
@@ -29,13 +29,13 @@ export class ListenerStore<
     }
 
     remove(key: Key, listener: ListenerStoreCallback<Args>) {
-        let listeners = this.store.get(key)
+        const listeners = this.store.get(key);
         if (!listeners) return;
 
         listeners.delete(listener);
 
         if (listeners.size === 0) {
-            this.store.delete(key)
+            this.store.delete(key);
         }
     }
 
@@ -44,7 +44,7 @@ export class ListenerStore<
         if (!listeners) return;
 
         listeners.forEach((listener) => {
-            listener(...args)
-        })
+            listener(...args);
+        });
     }
 }

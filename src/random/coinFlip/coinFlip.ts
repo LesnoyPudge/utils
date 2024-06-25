@@ -1,7 +1,7 @@
-import { inRange } from "@root"
+import { inRange } from '@root';
 
 
 
 export const coinFlip = () => {
-    return !!inRange(0, 1)
-}
+    return !!inRange(0, 1);
+};

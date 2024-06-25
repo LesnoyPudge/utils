@@ -1,1 +1,1 @@
-export * from './isRgbLight'
+export * from './isRgbLight';

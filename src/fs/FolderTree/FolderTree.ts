@@ -7,13 +7,13 @@ import path from 'node:path';
 type File = {
     name: string;
     data: Buffer;
-}
+};
 
 type Folder = {
     name: string;
     files: File[];
     folders: Folder[];
-}
+};
 
 export class FolderTree {
     data: Folder | null;
@@ -28,13 +28,13 @@ export class FolderTree {
             const resolvedPath = path.resolve(providedPath);
             const currentStats = fs.statSync(resolvedPath);
             const tree = this.createEmptyFolder();
-            
+
             if (currentStats.isDirectory()) {
-                tree.name = path.basename(resolvedPath)
+                tree.name = path.basename(resolvedPath);
             }
 
             this.fillFolder(resolvedPath, tree, extensions);
- 
+
             return tree;
         } catch (error) {
             return null;
@@ -46,7 +46,7 @@ export class FolderTree {
             files: [],
             folders: [],
             name,
-        }
+        };
     }
 
     private fillFolder(
@@ -55,22 +55,22 @@ export class FolderTree {
         extensions: string[] | undefined,
     ) {
         const files = fs.readdirSync(currentPath);
-        
+
         files.forEach((fileName) => {
             const filePath = path.join(currentPath, fileName);
             const stat = fs.statSync(filePath);
-    
+
             const validExtension = (
                 extensions
                     ? extensions.some((ext) => fileName.endsWith(ext))
                     : true
             );
-    
+
             if (stat.isFile() && validExtension) {
                 const fileData = fs.readFileSync(filePath);
                 folder.files.push({ data: fileData, name: fileName });
             }
-    
+
             if (stat.isDirectory()) {
                 const newFolder = this.createEmptyFolder(fileName);
                 folder.folders.push(newFolder);
@@ -80,14 +80,14 @@ export class FolderTree {
     }
 
     private traverseFolder(
-        folder: Folder, 
-        cb: (value: Folder | File) => void
+        folder: Folder,
+        cb: (value: Folder | File) => void,
     ) {
         cb(folder);
         folder.files.forEach(cb);
         folder.folders.forEach((_folder) => {
-            this.traverseFolder(_folder, cb);    
-        })
+            this.traverseFolder(_folder, cb);
+        });
     }
 
     traverse(cb: (value: Folder | File) => void) {
@@ -96,6 +96,6 @@ export class FolderTree {
     }
 
     isEmpty() {
-        return !(this.data?.files.length || this.data?.folders.length);
+        return !(this.data?.files.length ?? this.data?.folders.length);
     }
 }

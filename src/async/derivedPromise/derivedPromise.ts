@@ -1,5 +1,5 @@
-import { T } from "@lesnoypudge/types-utils-base";
-import { noop } from "@root";
+import { T } from '@lesnoypudge/types-utils-base';
+import { noop } from '@root';
 
 
 
@@ -10,15 +10,15 @@ type Executor<Result = any> = (res: Resolve<Result>, rej: Reject) => void;
 
 export type DerivedPromiseControls<Result> = {
     resolve: Resolve<Result>;
-    reject: Reject,
-}
+    reject: Reject;
+};
 
 export const derivedPromise = <
-    Result = unknown, 
-    FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>
+    Result = unknown,
+    FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>,
 >(executor?: FN): [
     promise: Promise<Result>,
-    controls: DerivedPromiseControls<Result>
+    controls: DerivedPromiseControls<Result>,
 ] => {
     let resolve: Resolve<Result> = noop;
     let reject: Reject = noop;
@@ -31,15 +31,15 @@ export const derivedPromise = <
     }).finally(() => {
         resolve = noop;
         reject = noop;
-    })
+    });
 
     const controls: DerivedPromiseControls<Result> = {
         resolve,
         reject,
-    }
+    };
 
     return [
         promise,
-        controls
-    ]
-}
+        controls,
+    ];
+};

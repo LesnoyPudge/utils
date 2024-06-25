@@ -1,4 +1,4 @@
-import { T } from "@lesnoypudge/types-utils-base";
+import { T } from '@lesnoypudge/types-utils-base';
 
 
 
@@ -10,7 +10,7 @@ type Options<_AsHtml extends boolean> = {
 };
 
 type Return<_AsHtml extends boolean> = (
-    (_AsHtml extends true ? HTMLPreElement : string) 
+    (_AsHtml extends true ? HTMLPreElement : string)
     | null
 );
 
@@ -26,17 +26,17 @@ const xss = (s: string): string => {
     if (!s) {
       return s;
     }
-  
+
     return s.replace(/<|>|&|"|'/g, (m) => {
       return xssmap[m];
     });
-}
+};
 
 const replace = (
-    match: any, 
-    ind: string, 
-    key: string, 
-    val: string, 
+    match: any,
+    ind: string,
+    key: string,
+    val: string,
     tra: string,
 ) => {
     const spanEnd = '</span>';
@@ -52,17 +52,17 @@ const replace = (
 
     if (val) {
       if (val === 'true' || val === 'false') {
-        sps = sps +  booSpan + val + spanEnd;
+        sps = sps + booSpan + val + spanEnd;
       } else {
-        sps = sps + (val[0] === '"' ? strSpan : valSpan) + val + spanEnd;
+        sps = sps + (val.startsWith('"') ? strSpan : valSpan) + val + spanEnd;
       }
     }
 
     return sps + (tra || '');
-}
+};
 
 const pretty = (
-    data: unknown, 
+    data: unknown,
     options: Pick<Options<boolean>, 'replacer' | 'space'>,
 ): string => {
     // “key”: "value" | "key": value | "key": [ | "key": { | "key": [],| "Key": {},
@@ -70,9 +70,9 @@ const pretty = (
     const text = JSON.stringify(
         data,
         options.replacer,
-        options.space
+        options.space,
     );
-    
+
     if (!text) return text;
 
     return (
@@ -82,7 +82,7 @@ const pretty = (
             .replace(/>/g, '&gt;')
             .replace(regLine, replace)
     );
-}
+};
 
 const defaultOptions = {
     className: '',
@@ -101,14 +101,14 @@ export const createJsonView = <_AsHtml extends boolean = false>(
     } = { ...defaultOptions, ...options };
 
     try {
-        const obj = typeof data === 'string' ? JSON.parse(data) : data; 
+        const obj = typeof data === 'string' ? JSON.parse(data) : data;
         const view = xss(pretty(obj, _options));
 
         if (asHTML) {
-            const el = document.createElement('pre')
+            const el = document.createElement('pre');
             el.className = className;
             el.innerHTML = view;
-            
+
             return el as Return<_AsHtml>;
         }
 
@@ -119,5 +119,5 @@ export const createJsonView = <_AsHtml extends boolean = false>(
         ) as Return<_AsHtml>;
     } catch (error) {
         return null;
-    } 
-}
+    }
+};

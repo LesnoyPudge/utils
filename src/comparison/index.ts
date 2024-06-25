@@ -1,1 +1,1 @@
-export * from './shallowEqual'
+export * from './shallowEqual';

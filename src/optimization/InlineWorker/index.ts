@@ -1,1 +1,1 @@
-export * from './InlineWorker'
+export * from './InlineWorker';

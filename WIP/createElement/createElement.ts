@@ -1,4 +1,4 @@
-import { T } from "@lesnoypudge/types-utils-base";
+import { T } from '@lesnoypudge/types-utils-base';
 
 
 
@@ -9,7 +9,7 @@ type TagElement<ProvidedTag extends Tag> = HTMLElementTagNameMap[ProvidedTag];
 type Child = Node | string;
 
 type Override<
-    Source extends T.AnyRecord, 
+    Source extends T.AnyRecord,
     Key extends keyof Source,
     NewValue,
 > = {
@@ -24,15 +24,15 @@ type ElementWithExtendedChildren<ProvidedTag extends Tag> = T.Writable<
     >
 >;
 
-type qwe = Override<{wow: 5, some: 'yea'}, 'wow', string>;
+type qwe = Override<{ wow: 5; some: 'yea' }, 'wow', string>;
 
 const isChildrenList = (value: unknown): value is Child[] => {
-    return Array.isArray(value)
-}
+    return Array.isArray(value);
+};
 
 type Options<ProvidedTag extends Tag> = Partial<
     T.DeepOmit<
-        ElementWithExtendedChildren<ProvidedTag>, 
+        ElementWithExtendedChildren<ProvidedTag>,
         Record<string, string | null | undefined>
     >
 >;
@@ -48,7 +48,7 @@ type Options2<_ProvidedTag extends Tag> = Partial<{
 }> & Record<`data-${string}`, string>;
 
 export const createElement = <ProvidedTag extends Tag>(
-    tag: ProvidedTag, 
+    tag: ProvidedTag,
     options?: Options2<ProvidedTag>,
     children?: HTMLElement[],
 ): HTMLElementTagNameMap[ProvidedTag] => {
@@ -56,17 +56,17 @@ export const createElement = <ProvidedTag extends Tag>(
 
     if (options) {
         (Object.entries(options) as [
-            keyof TagElement<ProvidedTag>, 
-            T.ValueOf<HTMLElementTagNameMap[ProvidedTag]>
+            keyof TagElement<ProvidedTag>,
+            T.ValueOf<HTMLElementTagNameMap[ProvidedTag]>,
         ][]).forEach(([key, value]) => {
             el.setAttribute(String(key), String(value));
         });
     }
-    
-    if (children?.length) {
+
+    if (children.length) {
         children.forEach((child) => {
             el.appendChild(child);
-        })
+        });
     }
 
     return el;

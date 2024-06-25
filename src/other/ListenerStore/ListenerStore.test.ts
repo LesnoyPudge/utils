@@ -1,4 +1,4 @@
-import { ListenerStore, Counter } from "@root";
+import { ListenerStore, Counter } from '@root';
 
 
 
@@ -21,7 +21,7 @@ describe('ListenerStore', () => {
 
         store.trigger('2', 5);
 
-        expect(c1.get()).toBe(5)
+        expect(c1.get()).toBe(5);
         expect(c2.get()).toBe(10);
-    })
-})
+    });
+});

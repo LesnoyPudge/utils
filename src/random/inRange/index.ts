@@ -1,1 +1,1 @@
-export * from './inRange'
+export * from './inRange';

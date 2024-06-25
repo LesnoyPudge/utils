@@ -1,1 +1,1 @@
-export * from './getNameParts'
+export * from './getNameParts';

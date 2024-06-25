@@ -1,1 +1,1 @@
-export * from './coinFlip'
+export * from './coinFlip';

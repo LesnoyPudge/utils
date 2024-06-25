@@ -1,5 +1,5 @@
-import { T } from "@lesnoypudge/types-utils-base";
-import { DerivedPromiseControls, autoBind, derivedPromise, noop } from "@root";
+import { T } from '@lesnoypudge/types-utils-base';
+import { DerivedPromiseControls, autoBind, derivedPromise, noop } from '@root';
 
 
 
@@ -68,11 +68,11 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
 
         promise.finally(() => {
             this.queue.shift();
-            
+
             if (this.queue.length) {
                 this.worker?.postMessage(this.queue[0].args);
             }
-        })
+        });
 
         this.queue.push({
             promise,
@@ -81,7 +81,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
         });
 
         if (this.queue.length <= 1) {
-            this.worker.postMessage(this.queue[0].args)
+            this.worker.postMessage(this.queue[0].args);
         }
 
         return promise;
@@ -96,7 +96,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
         this.worker = null;
         const items = [...this.queue];
         this.queue = [];
-        
+
         items.forEach((item) => item.reject());
     }
 }

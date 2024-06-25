@@ -1,3 +1,3 @@
-export * from './hotKey'
-export * from './addEventListener'
-export * from './removeEventListener'
+export * from './hotKey';
+export * from './addEventListener';
+export * from './removeEventListener';

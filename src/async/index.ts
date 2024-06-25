@@ -1,2 +1,2 @@
-export * from './sleep'
-export * from './derivedPromise'
+export * from './sleep';
+export * from './derivedPromise';

@@ -1,4 +1,4 @@
-import { shallowEqual as _shallowEqual } from "shallow-equal";
+import { shallowEqual as _shallowEqual } from 'shallow-equal';
 
 
 

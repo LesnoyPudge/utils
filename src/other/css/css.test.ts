@@ -1,4 +1,4 @@
-import { css } from "@root";
+import { css } from '@root';
 
 
 
@@ -14,6 +14,6 @@ describe('css', () => {
             html {
                 color: 'red'
             }
-        `)
-    })
-})
+        `);
+    });
+});

@@ -1,4 +1,4 @@
-import { ListenerStore, ListenerStoreCallback } from "@root";
+import { ListenerStore, ListenerStoreCallback } from '@root';
 
 
 
@@ -14,18 +14,18 @@ export class SharedResizeObserver {
         this.listeners = new ListenerStore();
         this.observer = new ResizeObserver((entries) => {
             entries.forEach((entry) => {
-                this.listeners.trigger(entry.target, entry)
-            })
+                this.listeners.trigger(entry.target, entry);
+            });
         });
     }
 
     observe(
-        element: Element, 
+        element: Element,
         listener: StoreCallback,
         options?: ResizeObserverOptions,
     ) {
         this.listeners.add(element, listener);
-        this.observer.observe(element, options)
+        this.observer.observe(element, options);
     }
 
     unobserve(element: Element, listener: StoreCallback) {

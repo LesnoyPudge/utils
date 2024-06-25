@@ -8,12 +8,12 @@ const __dirname = dirname(__filename);
 function addExtensions(filePath) {
     const content = readFileSync(filePath, 'utf8');
     const updatedContent = content.replace(
-        /(from\s+['"])(\.\/[^'"]+)(['"])/g, 
+        /(from\s+['"])(\.\/[^'"]+)(['"])/g,
         (match, p1, p2, p3) => {
             const jsFilePath = resolve(dirname(filePath), `${p2}.js`);
             const indexJsFilePath = resolve(
-                dirname(filePath), 
-                `${p2}/index.js`
+                dirname(filePath),
+                `${p2}/index.js`,
             );
 
             if (existsSync(jsFilePath)) {
@@ -22,13 +22,13 @@ function addExtensions(filePath) {
                 return `${p1}${p2}/index.js${p3}`;
             }
             return match;
-        }
+        },
     );
     writeFileSync(filePath, updatedContent, 'utf8');
 }
 
 function processDirectory(directory) {
-    console.log('fixing path aliases')
+    console.log('fixing path aliases');
     const files = readdirSync(directory);
     files.forEach((file) => {
         const filePath = join(directory, file);

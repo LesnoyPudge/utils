@@ -1,4 +1,4 @@
-import { removeEventListener } from "@root";
+import { removeEventListener } from '@root';
 
 
 
@@ -15,20 +15,20 @@ type AvailableEventNames<ProvidedElement extends ElementUnion> = (
 );
 
 type AddEventListener = <
-    ProvidedElement extends ElementUnion,  
+    ProvidedElement extends ElementUnion,
     EventName extends keyof AvailableEventNames<ProvidedElement>,
 >(
-    element: ProvidedElement, 
-    eventName: EventName, 
+    element: ProvidedElement,
+    eventName: EventName,
     fn: (e: AvailableEventNames<ProvidedElement>[EventName]) => void
 ) => () => void;
 
 export const addEventListener: AddEventListener = (
-    element, 
-    eventName, 
-    fn
+    element,
+    eventName,
+    fn,
 ) => {
     element.addEventListener(String(eventName), fn as EventListener);
 
     return () => removeEventListener(element, eventName, fn);
-}
+};

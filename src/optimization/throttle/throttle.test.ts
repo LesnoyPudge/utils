@@ -1,4 +1,4 @@
-import { Counter, sleep, throttle } from "@root"
+import { Counter, sleep, throttle } from '@root';
 
 
 
@@ -6,88 +6,88 @@ describe('throttle', () => {
     describe('should be called once', () => {
         test('1', () => {
             const c = new Counter();
-            const [throttled, {reset}] = throttle(() => c.inc(), 100)
+            const [throttled, { reset }] = throttle(() => c.inc(), 100);
 
-            throttled()
-            throttled()
-            throttled()
+            void throttled();
+            void throttled();
+            void throttled();
 
-            reset()
+            reset();
 
             expect(c.get()).toBe(1);
-        })
+        });
 
         test('2', () => {
             const c = new Counter();
-            const [throttled, {reset}] = throttle(() => c.inc(), 0)
+            const [throttled, { reset }] = throttle(() => c.inc(), 0);
 
-            throttled()
-            throttled()
-            throttled()
+            void throttled();
+            void throttled();
+            void throttled();
 
-            reset()
+            reset();
 
             expect(c.get()).toBe(1);
-        })
-    })
+        });
+    });
 
     describe('should be called multiple times', () => {
-        test('1', async() => {
+        test('1', async () => {
             const c = new Counter();
 
-            const [throttled, {reset}] = throttle(c.inc, 0);
+            const [throttled, { reset }] = throttle(c.inc, 0);
 
-            throttled()
-
-            await sleep();
-            
-            throttled()
+            void throttled();
 
             await sleep();
 
-            throttled()
-            
+            void throttled();
+
+            await sleep();
+
+            void throttled();
+
             reset();
 
             expect(c.get()).toBe(3);
-        })
-    })
+        });
+    });
 
     describe('should not be called', () => {
         test('1', () => {
             const c = new Counter();
 
-            const [throttled, {block, reset}] = throttle(c.inc, 0);
+            const [throttled, { block, reset }] = throttle(c.inc, 0);
 
-            block()
+            block();
 
-            throttled()
-            throttled()
-            throttled()
+            void throttled();
+            void throttled();
+            void throttled();
 
-            reset()
+            reset();
 
             expect(c.get()).toBe(0);
-        })
-    })
+        });
+    });
 
     describe('should work as promise', () => {
-        test('1', async() => {
+        test('1', async () => {
             const c = new Counter();
 
-            const [throttled, {reset}] = throttle(c.inc, 0);
+            const [throttled, { reset }] = throttle(c.inc, 0);
 
             await throttled().then(() => {
-                c.inc(3)
-            })
-            
-            throttled()
+                c.inc(3);
+            });
 
-            throttled().then(() => c.inc())
-            
+            void throttled();
+
+            void throttled().then(() => c.inc());
+
             reset();
 
             expect(c.get()).toBe(5);
-        })
-    })
-})
+        });
+    });
+});

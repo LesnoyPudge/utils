@@ -1,11 +1,11 @@
-import { Counter } from "@root"
+import { Counter } from '@root';
 
 
 
 describe('counter', () => {
     test('1', () => {
         const {
-            increase, 
+            increase,
             get,
             decrease,
             reset,
@@ -14,69 +14,69 @@ describe('counter', () => {
             setStep,
         } = new Counter();
 
-        increase(2)
-        increase()
+        increase(2);
+        increase();
 
-        expect(get()).toBe(3)
-        
+        expect(get()).toBe(3);
+
         increase(5);
 
-        expect(get()).toBe(8)
-    
-        increase()
+        expect(get()).toBe(8);
 
-        expect(get()).toBe(9)
+        increase();
 
-        setStep(2)
+        expect(get()).toBe(9);
 
-        increase()
+        setStep(2);
 
-        expect(get()).toBe(11)
+        increase();
 
-        decrease()
+        expect(get()).toBe(11);
 
-        expect(get()).toBe(9)
+        decrease();
 
-        decrease(1)
+        expect(get()).toBe(9);
 
-        expect(get()).toBe(8)
+        decrease(1);
 
-        setStep(1)
+        expect(get()).toBe(8);
 
-        reset()
+        setStep(1);
 
-        expect(get()).toBe(0)
+        reset();
 
-        setInitialCount(11)
+        expect(get()).toBe(0);
 
-        reset()
+        setInitialCount(11);
 
-        expect(get()).toBe(11)
+        reset();
 
-        setCount(5)
+        expect(get()).toBe(11);
 
-        expect(get()).toBe(5)
-    })
+        setCount(5);
+
+        expect(get()).toBe(5);
+    });
 
     test('2', () => {
         const {
-            get, 
-            inc, 
+            get,
+            inc,
             reset,
             setInitialCount,
         } = new Counter(5, 3);
 
-        expect(get()).toBe(5)
+        expect(get()).toBe(5);
 
-        inc()
+        inc();
 
-        expect(get()).toBe(8)
+        expect(get()).toBe(8);
 
-        setInitialCount(0)
-        reset()
+        setInitialCount(0);
+        reset();
 
-        expect(get()).toBe(0)
-    })
+        expect(get()).toBe(0);
+    });
 
     test('3', () => {
         const c = new Counter();
@@ -84,10 +84,10 @@ describe('counter', () => {
 
         c.onCountChange((value) => {
             result = value;
-        })
+        });
 
-        c.inc(2)
+        c.inc(2);
 
         expect(result).toBe(2);
-    })
-})
+    });
+});

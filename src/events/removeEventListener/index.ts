@@ -1,1 +1,1 @@
-export * from './removeEventListener'
+export * from './removeEventListener';

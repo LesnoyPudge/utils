@@ -1,1 +1,1 @@
-export * from './SharedResizeObserver'
+export * from './SharedResizeObserver';

@@ -1,4 +1,4 @@
-import { inRange } from "@root"
+import { inRange } from '@root';
 
 
 
@@ -14,6 +14,6 @@ describe('inRange', () => {
 
         expect(inRange(-15, -6)).toBeLessThan(-5);
 
-        expect(inRange(1.1, 1.1)).toBeGreaterThanOrEqual(1)
-    })
-})
+        expect(inRange(1.1, 1.1)).toBeGreaterThanOrEqual(1);
+    });
+});

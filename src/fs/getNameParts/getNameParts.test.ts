@@ -1,4 +1,4 @@
-import { getNameParts } from "@root";
+import { getNameParts } from '@root';
 
 
 
@@ -17,14 +17,14 @@ describe('getNameParts', () => {
         } satisfies Parts);
 
         expect(getNameParts('someFile.')).toBe(null);
-        
+
         expect(getNameParts('.someFile')).toStrictEqual({
             name: '',
-            ext: 'someFile'
+            ext: 'someFile',
         } satisfies Parts);
 
         expect(getNameParts('.')).toBe(null);
 
         expect(getNameParts('')).toBe(null);
-    })
-})
+    });
+});

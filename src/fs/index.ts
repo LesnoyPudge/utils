@@ -1,2 +1,2 @@
-export * from './FolderTree'
-export * from './getNameParts'
+export * from './FolderTree';
+export * from './getNameParts';

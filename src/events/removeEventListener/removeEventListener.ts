@@ -14,18 +14,18 @@ type AvailableEventNames<ProvidedElement extends ElementUnion> = (
 );
 
 type RemoveEventListener = <
-    ProvidedElement extends ElementUnion,  
+    ProvidedElement extends ElementUnion,
     EventName extends keyof AvailableEventNames<ProvidedElement>,
 >(
-    element: ProvidedElement, 
-    eventName: EventName, 
+    element: ProvidedElement,
+    eventName: EventName,
     fn: (e: AvailableEventNames<ProvidedElement>[EventName]) => void
 ) => void;
 
 export const removeEventListener: RemoveEventListener = (
-    element, 
-    eventName, 
+    element,
+    eventName,
     fn,
 ) => {
-    element.removeEventListener(String(eventName), fn as EventListener)
-}
+    element.removeEventListener(String(eventName), fn as EventListener);
+};

@@ -1,1 +1,1 @@
-export * from './SharedIntersectionObserver'
+export * from './SharedIntersectionObserver';
