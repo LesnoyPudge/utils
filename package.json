@@ -1,14 +1,19 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "9.0.0",
+    "version": "9.0.1",
     "description": "lesnoypudge's utils",
     "types": "./build/index.d.ts",
     "main": "./build/index.js",
     "exports": {
-        ".": "./build/index.js",
+        ".": {
+            "import": "./build/index.js",
+            "require": "./build/index.js",
+            "types": "./build/index.d.ts"
+        },
         "./namespace": {
-            "types": "./build/namespace.d.ts",
-            "default": "./build/namespace.js"
+            "import": "./build/namespace.js",
+            "require": "./build/namespace.js",
+            "types": "./build/namespace.d.ts"
         },
         "./package.json": "./package.json"
     },

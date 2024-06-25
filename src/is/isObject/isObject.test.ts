@@ -1,8 +1,10 @@
+import { isObject } from './isObject';
 
 
 
 describe('isObject', () => {
     test('1', () => {
-        throw new Error('todo');
+        expect(isObject({})).toBe(true);
+        expect(isObject([])).toBe(true);
     });
 });

@@ -63,7 +63,7 @@ export const createElement = <ProvidedTag extends Tag>(
         });
     }
 
-    if (children.length) {
+    if (children?.length) {
         children.forEach((child) => {
             el.appendChild(child);
         });

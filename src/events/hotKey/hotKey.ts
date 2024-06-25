@@ -1,4 +1,4 @@
-import { KEY, defaults } from '@root';
+import { KEY } from '@root';
 
 
 
@@ -14,24 +14,17 @@ type HotKeyOptions = {
 
 type HotKey = (action: Action, options?: HotKeyOptions) => Handler;
 
-type KeyCombos = string[][];
+type KeyCombo = string[];
 
-type Make = (...keys: KeyCombos) => HotKey;
+type Make = (...keys: KeyCombo[]) => HotKey;
 
 type EventLike = KeyboardEvent & {
     nativeEvent?: KeyboardEvent;
 };
 
-const defaultOptions: Required<HotKeyOptions> = {
-    prevent: false,
-    stop: false,
-    stopImmediate: false,
-};
 
-const matcher = (keyCombos: KeyCombos) => {
+const matcher = (keyCombo: KeyCombo) => {
     return (e: KeyboardEvent) => {
-        let isMatch = false;
-
         const activeKeys = Array.from(new Set([
             e.altKey && KEY.Alt.toLowerCase(),
             e.ctrlKey && KEY.Control.toLowerCase(),
@@ -40,49 +33,32 @@ const matcher = (keyCombos: KeyCombos) => {
             e.key.toLowerCase(),
         ].filter(Boolean)));
 
-        keyCombos.forEach((keyCombo) => {
-            if (isMatch) return;
-            if (activeKeys.length !== keyCombo.length) return;
+        if (activeKeys.length !== keyCombo.length) return false;
 
-            let matchCount = 0;
-            let bail = false;
-
-            keyCombo.forEach((key) => {
-                if (isMatch) return;
-                if (bail) return;
-
-                if (activeKeys.includes(key.toLowerCase())) {
-                    return matchCount++;
-                }
-
-                bail = true;
-            });
-
-            isMatch = matchCount === keyCombo.length;
-        });
+        const isMatch = (
+            keyCombo.map((key) => activeKeys.includes(key.toLowerCase()))
+            .find((res) => !res)
+            ?? true
+        );
 
         return isMatch;
     };
 };
 
 const make: Make = (...keyCombos) => {
-    return (action, options = defaultOptions) => {
-        options = defaults(options, defaultOptions);
-
+    return (action, options) => {
         return (e) => {
-            const isMatch = matcher(keyCombos)(e);
+            const isMatch = keyCombos.map((keyCombo) => {
+                return matcher(keyCombo)(e);
+            }).some((res) => res);
+
             if (!isMatch) return false;
 
-            options.prevent && e.preventDefault();
-            options.stop && e.stopPropagation();
-            options.stopImmediate && e.stopImmediatePropagation();
+            options?.prevent && e.preventDefault();
+            options?.stop && e.stopPropagation();
+            options?.stopImmediate && e.stopImmediatePropagation();
 
-            try {
-                action(e);
-            } catch (error) {
-                console.error(error);
-                return false;
-            }
+            action(e);
 
             return true;
         };
