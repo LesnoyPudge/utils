@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "9.0.1",
+    "version": "9.0.2",
     "description": "lesnoypudge's utils",
     "types": "./build/index.d.ts",
     "main": "./build/index.js",
@@ -47,8 +47,7 @@
         "auto-bind": "^5.0.1",
         "defaults": "^3.0.0",
         "shallow-equal": "^3.1.0",
-        "ts-functional-pipe": "^3.1.2",
-        "unbuild": "^2.0.0"
+        "ts-functional-pipe": "^3.1.2"
     },
     "devDependencies": {
         "@lesnoypudge/eslint-base-config": "^1.9.0",
@@ -60,8 +59,11 @@
         "ts-jest": "^29.1.5",
         "tsc-alias": "^1.8.10",
         "tslib": "^2.6.3",
-        "typescript": "^5.4.5",
+        "typescript": "^5.5.2",
+        "unbuild": "^2.0.0",
         "vite-tsconfig-paths": "^4.3.2",
-        "vitest": "^1.6.0"
+        "vitest": "^1.6.0",
+        "yup": "^1.4.0",
+        "zod": "^3.23.8"
     }
 }

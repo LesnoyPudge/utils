@@ -7,7 +7,7 @@ export const pick = <
     _Keys extends keyof _Source,
 >(
     source: _Source,
-    ...keys: T.NonEmptyArray<_Keys>
+    ...keys: _Keys[]
 ): T.Prettify<Pick<_Source, _Keys>> => {
     const output = keys.reduce<Pick<_Source, _Keys>>((acc, cur) => {
         acc[cur] = source[cur];
