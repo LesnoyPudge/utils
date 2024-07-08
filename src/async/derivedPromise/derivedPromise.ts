@@ -14,7 +14,7 @@ export type DerivedPromiseControls<Result> = {
 };
 
 export const derivedPromise = <
-    Result = unknown,
+    Result = void,
     FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>,
 >(executor?: FN): [
     promise: Promise<Result>,

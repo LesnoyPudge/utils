@@ -20,15 +20,17 @@ type AddEventListener = <
 >(
     element: ProvidedElement,
     eventName: EventName,
-    fn: (e: AvailableEventNames<ProvidedElement>[EventName]) => void
+    fn: (e: AvailableEventNames<ProvidedElement>[EventName]) => void,
+    options?: AddEventListenerOptions,
 ) => () => void;
 
 export const addEventListener: AddEventListener = (
     element,
     eventName,
     fn,
+    options,
 ) => {
-    element.addEventListener(String(eventName), fn as EventListener);
+    element.addEventListener(String(eventName), fn as EventListener, options);
 
     return () => removeEventListener(element, eventName, fn);
 };
