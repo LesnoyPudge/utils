@@ -7,6 +7,7 @@ export default [
     {
         rules: {
             '@typescript-eslint/consistent-indexed-object-style': 'off',
+            '@typescript-eslint/no-namespace': 'off',
         },
-    }
+    },
 ];
