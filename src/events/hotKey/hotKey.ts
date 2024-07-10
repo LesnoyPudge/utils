@@ -1,29 +1,29 @@
 import { KEY } from '@root';
 
 
+export namespace hotKey {
+    export type Action = (e: KeyboardEvent) => void;
 
-type Action = (e: KeyboardEvent) => void;
+    export type Handler = (e: KeyboardEvent) => boolean;
 
-type Handler = (e: KeyboardEvent) => boolean;
+    export type HotKeyOptions = {
+        prevent?: boolean;
+        stop?: boolean;
+        stopImmediate?: boolean;
+    };
 
-type HotKeyOptions = {
-    prevent?: boolean;
-    stop?: boolean;
-    stopImmediate?: boolean;
-};
+    export type HotKey = (action: Action, options?: HotKeyOptions) => Handler;
 
-type HotKey = (action: Action, options?: HotKeyOptions) => Handler;
+    export type KeyCombo = string[];
 
-type KeyCombo = string[];
+    export type Make = (...keys: KeyCombo[]) => HotKey;
 
-type Make = (...keys: KeyCombo[]) => HotKey;
+    export type EventLike = KeyboardEvent & {
+        nativeEvent?: KeyboardEvent;
+    };
+}
 
-type EventLike = KeyboardEvent & {
-    nativeEvent?: KeyboardEvent;
-};
-
-
-const matcher = (keyCombo: KeyCombo) => {
+const matcher = (keyCombo: hotKey.KeyCombo) => {
     return (e: KeyboardEvent) => {
         const activeKeys = Array.from(new Set([
             e.altKey && KEY.Alt.toLowerCase(),
@@ -45,7 +45,7 @@ const matcher = (keyCombo: KeyCombo) => {
     };
 };
 
-const make: Make = (...keyCombos) => {
+const make: hotKey.Make = (...keyCombos) => {
     return (action, options) => {
         return (e) => {
             const isMatch = keyCombos.map((keyCombo) => {
@@ -66,8 +66,8 @@ const make: Make = (...keyCombos) => {
 };
 
 const uniter = (maxCalls: number) => {
-    return (...handlers: Handler[]) => {
-        return (e: EventLike): boolean => {
+    return (...handlers: hotKey.Handler[]) => {
+        return (e: hotKey.EventLike): boolean => {
             let count = 0;
             let bail = count >= maxCalls;
             const event = e.nativeEvent ?? e;
