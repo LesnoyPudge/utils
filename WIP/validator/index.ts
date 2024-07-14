@@ -1,4 +1,4 @@
-import { T } from '@lesnoypudge/types-utils-base';
+import { T } from '@lesnoypudge/types-utils-base/namespace';
 import { pipe } from '@root';
 import { TObject } from 'WIP/TObject/TObject';
 
