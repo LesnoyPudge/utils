@@ -3,6 +3,10 @@ import { addEventListener, ListenerStore, parseJSON } from '@root';
 
 
 
+let externalListeners: ListenerStore<
+    string,
+    [unknown]
+> | undefined;
 export class LocalStorage<
     _Schema extends Record<string, unknown>,
 > {
@@ -10,10 +14,10 @@ export class LocalStorage<
     private cleanupCallback;
 
     constructor() {
-        this.listeners = new ListenerStore<
-            T.StringKeyOf<_Schema>,
-            [unknown]
-        >();
+        if (externalListeners === undefined) {
+            externalListeners = new ListenerStore();
+        }
+        this.listeners = externalListeners;
         this.cleanupCallback = addEventListener(window, 'storage', (e) => {
             // clear event
             if (e.key === null) return this.clear();

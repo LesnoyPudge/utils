@@ -39,4 +39,16 @@ describe('LocalStorage', () => {
 
         expect(c.get()).toBe(expectedCounter);
     });
+
+    test('2', () => {
+        const storage1 = new LocalStorage<TestStorage>();
+        const storage2 = new LocalStorage<TestStorage>();
+        const c = new Counter(0);
+
+        storage2.onChange('testValue', () => c.inc());
+        storage1.set('testValue', 10);
+
+        expect(storage2.get('testValue')).toBe(10);
+        expect(c.get()).toBe(1);
+    });
 });

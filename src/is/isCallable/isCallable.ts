@@ -1,0 +1,1 @@
+export { default as isCallable } from 'is-callable';
