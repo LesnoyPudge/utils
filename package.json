@@ -1,7 +1,8 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "10.1.1",
+    "version": "10.1.2",
     "description": "lesnoypudge's utils",
+    "type": "module",
     "types": "./build/index.d.ts",
     "main": "./build/index.js",
     "exports": {
@@ -17,7 +18,6 @@
         },
         "./package.json": "./package.json"
     },
-    "type": "module",
     "files": [
         "build",
         "README.md"
