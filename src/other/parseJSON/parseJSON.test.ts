@@ -12,10 +12,10 @@ describe('parseJSON', () => {
         const res2 = parseJSON(invalidJSON);
 
         expect(res1).toStrictEqual(obj);
-        expect(res2).toBeUndefined();
+        expect(res2).toBe(undefined);
     });
 
     test('2', () => {
-        expect(parseJSON('')).toBeUndefined();
+        expect(parseJSON('')).toBe(undefined);
     });
 });

@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "9.3.0",
+    "version": "10.0.0",
     "description": "lesnoypudge's utils",
     "types": "./build/index.d.ts",
     "main": "./build/index.js",
@@ -32,7 +32,8 @@
         "formatter:config": "formatter-config",
         "lint:check": "eslint .",
         "lint:fix": "eslint . --fix",
-        "typeCheck": "tsc -p tsconfig.json --noEmit"
+        "type:check": "tsc --noEmit -p tsconfig.build.json",
+        "type:watch": "tsc --noEmit -watch -p tsconfig.build.json"
     },
     "keywords": [
         "lesnoypudge",

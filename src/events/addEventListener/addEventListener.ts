@@ -16,20 +16,6 @@ export namespace addEventListener {
     );
 }
 
-// type qwe = addEventListener.ElementUnion
-
-// export type ElementUnion = HTMLElement | Document | Window;
-
-// export type AvailableEventNames<ProvidedElement extends ElementUnion> = (
-//     ProvidedElement extends Document
-//         ? DocumentEventMap
-//         : ProvidedElement extends Window
-//             ? WindowEventMap
-//             : ProvidedElement extends HTMLElement
-//                 ? HTMLElementEventMap
-//                 : never
-// );
-
 type AddEventListener = <
     ProvidedElement extends addEventListener.ElementUnion,
     EventName extends keyof addEventListener.AvailableEventNames<

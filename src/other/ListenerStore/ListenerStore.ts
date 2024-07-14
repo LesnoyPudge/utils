@@ -47,4 +47,12 @@ export class ListenerStore<
             listener(...args);
         });
     }
+
+    triggerAll(...args: Args) {
+        this.store.forEach((value) => {
+            value.forEach((listener) => {
+                listener(...args);
+            });
+        });
+    }
 }

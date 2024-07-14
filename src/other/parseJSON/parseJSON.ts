@@ -3,7 +3,7 @@
 
 export const parseJSON = <ExpectedValue = unknown>(
     json: string,
-    reviver?: (this: any, key: string, value: any) => any,
+    reviver?: Parameters<typeof JSON.parse>[1],
 ): ExpectedValue | undefined => {
     try {
         return JSON.parse(json, reviver) as ExpectedValue;
