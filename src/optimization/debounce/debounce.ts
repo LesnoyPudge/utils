@@ -10,6 +10,8 @@ export const debounce = <Args extends unknown[]>(
 
     return (...args: Args) => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => fn(...args), delay);
+        timeout = setTimeout(() => {
+            fn(...args);
+        }, delay);
     };
 };

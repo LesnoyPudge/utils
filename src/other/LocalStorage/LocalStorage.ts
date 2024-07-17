@@ -17,6 +17,7 @@ export class LocalStorage<
         if (externalListeners === undefined) {
             externalListeners = new ListenerStore();
         }
+
         this.listeners = externalListeners;
         this.cleanupCallback = addEventListener(window, 'storage', (e) => {
             // clear event

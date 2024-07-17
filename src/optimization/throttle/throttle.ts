@@ -8,17 +8,17 @@ type Controls = {
     reset: () => void;
 };
 
-export const throttle = <FN extends T.AnyFunction<any[], void>>(
+export const throttle = <FN extends T.AnyFunction>(
     fn: FN,
     delayMS: number,
 ): [
     wrappedFunc: (...args: Parameters<FN>) => Promise<void>,
     control: Controls,
 ] => {
-    let lastArgs: any[];
+    let lastArgs: unknown[];
     let isBlocked = false;
     let isCalledDuringBlock = false;
-    let timeoutId: any;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const block = (resolve = noop) => {
         isBlocked = true;

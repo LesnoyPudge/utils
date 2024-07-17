@@ -11,7 +11,7 @@ type TestStorage = {
 describe('LocalStorage', () => {
     test('1', () => {
         const storage = new LocalStorage<TestStorage>();
-        const c = new Counter(0);
+        const c = new Counter();
         let expectedCounter = 0;
 
         storage.onChange('testValue', () => c.inc());
@@ -43,7 +43,7 @@ describe('LocalStorage', () => {
     test('2', () => {
         const storage1 = new LocalStorage<TestStorage>();
         const storage2 = new LocalStorage<TestStorage>();
-        const c = new Counter(0);
+        const c = new Counter();
 
         storage2.onChange('testValue', () => c.inc());
         storage1.set('testValue', 10);
