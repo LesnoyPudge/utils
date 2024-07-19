@@ -5,9 +5,12 @@ import { autoBind, Cache, ListenerStore, ListenerStoreCallback } from '@root';
 type Args = [entry: IntersectionObserverEntry];
 type StoreCallback = ListenerStoreCallback<Args>;
 export class SharedIntersectionObserver {
-    listeners: ListenerStore<Element, Args>;
-    observers: Cache<IntersectionObserver>;
-    elementsToOptionsMap: Map<Node, IntersectionObserverInit | undefined>;
+    private listeners: ListenerStore<Element, Args>;
+    private observers: Cache<IntersectionObserver>;
+    private elementsToOptionsMap: Map<
+        Node,
+        IntersectionObserverInit | undefined
+    >;
 
     constructor() {
         this.listeners = new ListenerStore();

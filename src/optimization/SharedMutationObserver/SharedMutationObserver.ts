@@ -6,9 +6,9 @@ type Args = [entry: MutationRecord];
 type StoreCallback = ListenerStoreCallback<Args>;
 
 export class SharedMutationObserver {
-    listeners: ListenerStore<Node, Args>;
-    observer: MutationObserver;
-    elementsToOptionsMap: Map<Node, MutationObserverInit | undefined>;
+    private listeners: ListenerStore<Node, Args>;
+    private observer: MutationObserver;
+    private elementsToOptionsMap: Map<Node, MutationObserverInit | undefined>;
 
     constructor() {
         this.listeners = new ListenerStore();

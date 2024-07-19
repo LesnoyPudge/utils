@@ -6,8 +6,8 @@ type Args = [entry: ResizeObserverEntry];
 type StoreCallback = ListenerStoreCallback<Args>;
 
 export class SharedResizeObserver {
-    listeners: ListenerStore<Element, Args>;
-    observer: ResizeObserver;
+    private listeners: ListenerStore<Element, Args>;
+    private observer: ResizeObserver;
 
     constructor() {
         this.listeners = new ListenerStore();
