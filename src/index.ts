@@ -10,3 +10,4 @@ export * from './constants';
 export * from './fs';
 export * from './comparison';
 export * from './is';
+export * from './strings';

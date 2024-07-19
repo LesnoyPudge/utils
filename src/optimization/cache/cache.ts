@@ -10,8 +10,7 @@ type CacheLayerData<PossibleValues> = ({
     isComputed: true;
     value: PossibleValues;
 }) & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    cleanupTimeoutId: any;
+    cleanupTimeoutId: null | ReturnType<typeof setTimeout>;
 };
 
 class CacheLayer<PossibleValues> {
@@ -63,14 +62,15 @@ export class Cache<PossibleValues> {
 
         key.forEach((keyPart) => {
             const map = currentLayer.getOrCreateMap();
+            const layer = map.get(keyPart);
 
-            if (!map.has(keyPart)) {
+            if (!layer) {
                 currentLayer = new CacheLayer();
                 map.set(keyPart, currentLayer);
                 return;
             }
 
-            currentLayer = map.get(keyPart)!;
+            currentLayer = layer;
         });
 
         return currentLayer;
@@ -145,5 +145,9 @@ export class Cache<PossibleValues> {
         loop(this.layer);
 
         return size;
+    }
+
+    destroy() {
+        this.layer = undefined;
     }
 }

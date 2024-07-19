@@ -1,31 +1,60 @@
-import { ListenerStore, ListenerStoreCallback } from '@root';
+import { autoBind, Cache, ListenerStore, ListenerStoreCallback } from '@root';
 
 
 
 type Args = [entry: IntersectionObserverEntry];
-type Store = ListenerStore<Element, Args>;
 type StoreCallback = ListenerStoreCallback<Args>;
-
 export class SharedIntersectionObserver {
-    listeners: Store;
-    observer: IntersectionObserver;
+    listeners: ListenerStore<Element, Args>;
+    observers: Cache<IntersectionObserver>;
+    elementsToOptionsMap: Map<Node, IntersectionObserverInit | undefined>;
 
-    constructor(options?: IntersectionObserverInit) {
+    constructor() {
         this.listeners = new ListenerStore();
-        this.observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                this.listeners.trigger(entry.target, entry);
-            });
-        }, options);
+        this.observers = new Cache();
+        this.elementsToOptionsMap = new Map();
+
+        autoBind(this);
     }
 
-    observe(element: Element, listener: StoreCallback) {
+    private observerCallback(entries: IntersectionObserverEntry[]) {
+        entries.forEach((entry) => {
+            this.listeners.trigger(entry.target, entry);
+        });
+    }
+
+    observe(
+        element: Element,
+        listener: StoreCallback,
+        options?: IntersectionObserverInit,
+    ) {
+        this.elementsToOptionsMap.set(element, options);
+        const observer = this.observers.getOrSet(
+            [options],
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            () => new IntersectionObserver(this.observerCallback, options),
+        );
+
         this.listeners.add(element, listener);
-        this.observer.observe(element);
+        observer.observe(element);
     }
 
-    unobserve(element: Element, listener: StoreCallback) {
+    unobserve(
+        element: Element,
+        listener: StoreCallback,
+    ) {
+        const options = this.elementsToOptionsMap.get(element);
+        const observer = this.observers.get([options]);
+        if (!observer) return;
+
+        this.elementsToOptionsMap.delete(element);
         this.listeners.remove(element, listener);
-        this.observer.unobserve(element);
+        observer.unobserve(element);
+    }
+
+    disconnect() {
+        this.elementsToOptionsMap.clear();
+        this.listeners.removeAll();
+        this.observers.destroy();
     }
 }

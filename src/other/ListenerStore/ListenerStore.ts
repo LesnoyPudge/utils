@@ -39,6 +39,10 @@ export class ListenerStore<
         }
     }
 
+    removeAll() {
+        this.store.clear();
+    }
+
     trigger(key: Key, ...args: Args) {
         const listeners = this.store.get(key);
         if (!listeners) return;
@@ -54,5 +58,15 @@ export class ListenerStore<
                 listener(...args);
             });
         });
+    }
+
+    getSize() {
+        let size = 0;
+
+        this.store.forEach((value) => {
+            size += value.size;
+        });
+
+        return size;
     }
 }

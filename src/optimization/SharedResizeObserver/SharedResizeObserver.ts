@@ -1,13 +1,12 @@
-import { ListenerStore, ListenerStoreCallback } from '@root';
+import { autoBind, ListenerStore, ListenerStoreCallback } from '@root';
 
 
 
 type Args = [entry: ResizeObserverEntry];
-type Store = ListenerStore<Element, Args>;
 type StoreCallback = ListenerStoreCallback<Args>;
 
 export class SharedResizeObserver {
-    listeners: Store;
+    listeners: ListenerStore<Element, Args>;
     observer: ResizeObserver;
 
     constructor() {
@@ -17,6 +16,8 @@ export class SharedResizeObserver {
                 this.listeners.trigger(entry.target, entry);
             });
         });
+
+        autoBind(this);
     }
 
     observe(
@@ -31,5 +32,9 @@ export class SharedResizeObserver {
     unobserve(element: Element, listener: StoreCallback) {
         this.listeners.remove(element, listener);
         this.observer.unobserve(element);
+    }
+
+    disconnect() {
+        this.observer.disconnect();
     }
 }

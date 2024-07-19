@@ -1,0 +1,5 @@
+- переделать Cache, добавили size или сделав его
+через WeakMap для предотвращения утечек памяти
+- изменить shared(Intersection/Mutation)Observer,
+чтобы принимал options в observe, и используя options
+как ключ в Cache выбирать готовый observer
