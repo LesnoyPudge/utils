@@ -10,7 +10,7 @@ type QueueItem<Args extends unknown[], Return> = (
     }
 );
 
-export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
+export class InlineWorker<Arg extends unknown[] = unknown[], Return = void> {
     private worker: Worker | null;
     private queue: QueueItem<Arg, Return>[];
     private fn: T.AnyFunction<Arg, Return>;
@@ -33,7 +33,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
 
     private createWorker(fn: T.AnyFunction<Arg, Return>) {
         const workerCode = (`
-            const workerFunction = (${fn});
+            const workerFunction = (${fn.toString()});
         
             onmessage = (event) => {
                 const args = event.data;
@@ -51,7 +51,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
             this.onError(event);
         };
 
-        worker.onmessage = (event) => {
+        worker.onmessage = (event: MessageEvent<Return>) => {
             this.queue[0].resolve(event.data);
             this.onSuccess(event.data);
         };
@@ -66,7 +66,7 @@ export class InlineWorker<Arg extends unknown[] = void[], Return = void> {
 
         const [promise, controls] = derivedPromise<Return>();
 
-        promise.finally(() => {
+        void promise.finally(() => {
             this.queue.shift();
 
             if (this.queue.length) {
