@@ -30,9 +30,9 @@ export class FolderTree {
     private createFolderTree(providedPath: string, extensions?: string[]) {
         try {
             const resolvedPath = path.resolve(
-                import.meta.dirname, 
-                providedPath
-            )
+                import.meta.dirname,
+                providedPath,
+            );
             const currentStats = fs.statSync(resolvedPath);
             const tree = this.createEmptyFolder('', resolvedPath);
 
@@ -77,8 +77,8 @@ export class FolderTree {
 
             if (stat.isFile() && validExtension) {
                 const fileData = fs.readFileSync(filePath);
-                folder.files.push({ 
-                    data: fileData, 
+                folder.files.push({
+                    data: fileData,
                     name: fileName,
                     type: 'file',
                     path: filePath,
@@ -115,14 +115,14 @@ export class FolderTree {
 
     getDataWithoutBuffer(): Folder | null {
         if (!this.data) return this.data;
-        
+
         const folder = structuredClone(this.data);
-        
+
         this.traverseFolder(folder, (fileOrFolder) => {
             if (fileOrFolder.type !== 'file') return;
 
             fileOrFolder.data = Buffer.from('');
-        })
+        });
 
         return folder;
     }

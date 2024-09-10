@@ -17,11 +17,11 @@ describe('FolderTree', () => {
         expect(tree.isEmpty()).toBe(false);
 
         tree.traverse(() => c.inc());
-    
+
         // 1 current folder and 3 files
-        expect(c.get()).toBe(4);    
-        expect(tree.data?.files.length).toBe(3)
-        expect(tree.data?.folders.length).toBe(0)
-        expect(tree.data?.name).toBe('FolderTree')
+        expect(c.get()).toBe(4);
+        expect(tree.data?.files.length).toBe(3);
+        expect(tree.data?.folders.length).toBe(0);
+        expect(tree.data?.name).toBe('FolderTree');
     });
 });

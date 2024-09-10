@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "12.3.0",
+    "version": "12.3.2",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -42,7 +42,7 @@
     "author": "LesnoyPudge",
     "license": "ISC",
     "dependencies": {
-        "@lesnoypudge/formatter-config": "^2.1.0",
+        "@lesnoypudge/formatter-config": "^2.1.2",
         "@lesnoypudge/types-global-base": "^1.4.0",
         "@lesnoypudge/types-utils-base": "^3.3.0",
         "auto-bind": "^5.0.1",
