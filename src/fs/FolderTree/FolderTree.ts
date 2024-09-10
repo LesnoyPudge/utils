@@ -5,14 +5,18 @@ import path from 'node:path';
 
 
 type File = {
+    type: 'file';
     name: string;
     data: Buffer;
+    path: string;
 };
 
 type Folder = {
+    type: 'folder';
     name: string;
     files: File[];
     folders: Folder[];
+    path: string;
 };
 
 export class FolderTree {
@@ -25,9 +29,12 @@ export class FolderTree {
 
     private createFolderTree(providedPath: string, extensions?: string[]) {
         try {
-            const resolvedPath = path.resolve(providedPath);
+            const resolvedPath = path.resolve(
+                import.meta.dirname, 
+                providedPath
+            )
             const currentStats = fs.statSync(resolvedPath);
-            const tree = this.createEmptyFolder();
+            const tree = this.createEmptyFolder('', resolvedPath);
 
             if (currentStats.isDirectory()) {
                 tree.name = path.basename(resolvedPath);
@@ -41,11 +48,13 @@ export class FolderTree {
         }
     }
 
-    private createEmptyFolder(name = ''): Folder {
+    private createEmptyFolder(name: string, path: string): Folder {
         return {
+            type: 'folder',
             files: [],
             folders: [],
             name,
+            path,
         };
     }
 
@@ -68,11 +77,16 @@ export class FolderTree {
 
             if (stat.isFile() && validExtension) {
                 const fileData = fs.readFileSync(filePath);
-                folder.files.push({ data: fileData, name: fileName });
+                folder.files.push({ 
+                    data: fileData, 
+                    name: fileName,
+                    type: 'file',
+                    path: filePath,
+                });
             }
 
             if (stat.isDirectory()) {
-                const newFolder = this.createEmptyFolder(fileName);
+                const newFolder = this.createEmptyFolder(fileName, filePath);
                 folder.folders.push(newFolder);
                 this.fillFolder(filePath, newFolder, extensions);
             }
@@ -97,5 +111,19 @@ export class FolderTree {
 
     isEmpty() {
         return !(this.data?.files.length ?? this.data?.folders.length);
+    }
+
+    getDataWithoutBuffer(): Folder | null {
+        if (!this.data) return this.data;
+        
+        const folder = structuredClone(this.data);
+        
+        this.traverseFolder(folder, (fileOrFolder) => {
+            if (fileOrFolder.type !== 'file') return;
+
+            fileOrFolder.data = Buffer.from('');
+        })
+
+        return folder;
     }
 }

@@ -47,12 +47,12 @@ export class InlineWorker<Arg extends unknown[] = unknown[], Return = void> {
         const worker = new Worker(URL.createObjectURL(workerBlob));
 
         worker.onerror = (event) => {
-            this.queue[0].reject(event);
+            this.queue[0]?.reject(event);
             this.onError(event);
         };
 
         worker.onmessage = (event: MessageEvent<Return>) => {
-            this.queue[0].resolve(event.data);
+            this.queue[0]?.resolve(event.data);
             this.onSuccess(event.data);
         };
 
@@ -70,7 +70,7 @@ export class InlineWorker<Arg extends unknown[] = unknown[], Return = void> {
             this.queue.shift();
 
             if (this.queue.length) {
-                this.worker?.postMessage(this.queue[0].args);
+                this.worker?.postMessage(this.queue[0]?.args);
             }
         });
 
@@ -81,14 +81,14 @@ export class InlineWorker<Arg extends unknown[] = unknown[], Return = void> {
         });
 
         if (this.queue.length <= 1) {
-            this.worker.postMessage(this.queue[0].args);
+            this.worker.postMessage(this.queue[0]?.args);
         }
 
         return promise;
     }
 
     cancel() {
-        this.queue[0].reject();
+        this.queue[0]?.reject();
     }
 
     terminate() {

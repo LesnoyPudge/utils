@@ -1,0 +1,40 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "WIP"
+    ],
+    "exclude": [
+        "node_modules",
+        "build"
+    ],
+    "compilerOptions": {
+        "types": [
+            "vitest/globals",
+            "@lesnoypudge/types-global-base"
+        ],
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleDetection": "force",
+        "outDir": "build",
+        "skipLibCheck": true,
+        "strict": true,
+        "moduleResolution": "Node",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "allowJs": true,
+        "declaration": true,
+        "declarationMap": false,
+        "baseUrl": ".",
+        "declarationDir": "build",
+        "paths": {
+            "@root": [
+                "src/index.ts"
+            ]
+        }
+    }
+}

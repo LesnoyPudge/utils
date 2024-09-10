@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import isCallable from 'is-callable';
+import { isCallable } from './isCallable';
+
 
 
 
