@@ -4,23 +4,25 @@ import path from 'node:path';
 
 
 
-type File = {
-    type: 'file';
-    name: string;
-    data: Buffer;
-    path: string;
-};
+export namespace FolderTree {
+    export type File = {
+        type: 'file';
+        name: string;
+        data: Buffer;
+        path: string;
+    };
 
-type Folder = {
-    type: 'folder';
-    name: string;
-    files: File[];
-    folders: Folder[];
-    path: string;
-};
+    export type Folder = {
+        type: 'folder';
+        name: string;
+        files: File[];
+        folders: Folder[];
+        path: string;
+    };
+}
 
 export class FolderTree {
-    data: Folder | null;
+    data: FolderTree.Folder | null;
 
     constructor(providedPath: string, extensions?: string[]) {
         this.data = this.createFolderTree(providedPath, extensions);
@@ -48,7 +50,7 @@ export class FolderTree {
         }
     }
 
-    private createEmptyFolder(name: string, path: string): Folder {
+    private createEmptyFolder(name: string, path: string): FolderTree.Folder {
         return {
             type: 'folder',
             files: [],
@@ -60,7 +62,7 @@ export class FolderTree {
 
     private fillFolder(
         currentPath: string,
-        folder: Folder,
+        folder: FolderTree.Folder,
         extensions: string[] | undefined,
     ) {
         const files = fs.readdirSync(currentPath);
@@ -94,8 +96,8 @@ export class FolderTree {
     }
 
     private traverseFolder(
-        folder: Folder,
-        cb: (value: Folder | File) => void,
+        folder: FolderTree.Folder,
+        cb: (value: FolderTree.Folder | FolderTree.File) => void,
     ) {
         cb(folder);
         folder.files.forEach(cb);
@@ -104,7 +106,7 @@ export class FolderTree {
         });
     }
 
-    traverse(cb: (value: Folder | File) => void) {
+    traverse(cb: (value: FolderTree.Folder | FolderTree.File) => void) {
         if (!this.data) return;
         this.traverseFolder(this.data, cb);
     }
@@ -113,7 +115,7 @@ export class FolderTree {
         return !(this.data?.files.length ?? this.data?.folders.length);
     }
 
-    getDataWithoutBuffer(): Folder | null {
+    getDataWithoutBuffer(): FolderTree.Folder | null {
         if (!this.data) return this.data;
 
         const folder = structuredClone(this.data);

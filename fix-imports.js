@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-function addExtensions(filePath) {
+const addExtensions = (filePath) => {
     const content = readFileSync(filePath, 'utf8');
     const updatedContent = content.replace(
         /(from\s+['"])(\.\/[^'"]+)(['"])/g,
@@ -25,9 +25,9 @@ function addExtensions(filePath) {
         },
     );
     writeFileSync(filePath, updatedContent, 'utf8');
-}
+};
 
-function processDirectory(directory) {
+const processDirectory = (directory) => {
     const files = readdirSync(directory);
     files.forEach((file) => {
         const filePath = join(directory, file);
@@ -38,7 +38,7 @@ function processDirectory(directory) {
             addExtensions(filePath);
         }
     });
-}
+};
 
 const buildDir = join(__dirname, 'build');
 processDirectory(buildDir);

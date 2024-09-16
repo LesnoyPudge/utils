@@ -1,37 +1,3 @@
-// {
-//     "include": ["./src/**/*.ts"],
-//     "exclude": [
-//         "node_modules",
-//         "build",
-//         "**/*.test.ts"
-//     ],
-//     "compilerOptions": {
-//         "types": ["@lesnoypudge/types-global-base", "node"],
-//         "lib": ["ESNext", "DOM"],
-//         "module": "ESNext",
-//         "target": "ESNext",
-//         // "moduleDetection": "force",
-//         "outDir": "build",
-//         "skipLibCheck": true,
-//         "strict": true,
-//         "moduleResolution": "Bundler",
-//         "esModuleInterop": true,
-//         "resolveJsonModule": true,
-//         "isolatedModules": true,
-//         // "composite": true,
-//         "allowJs": true,
-//         "declaration": true,
-//         "declarationMap": false,
-//         "baseUrl": ".",
-//         "declarationDir": "build",
-//         "paths": {
-//             "@root": ["src/index.ts"]
-//         }
-//     }
-// }
-
-
-
 {
     "include": [
         "./src/**/*.ts",
