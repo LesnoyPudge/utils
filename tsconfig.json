@@ -9,10 +9,7 @@
         "paths": {
             "@root": ["src/index.ts"]
         },
-        // "typeRoots": [
-        //     "node_modules/@types",
-        //     "node_modules"
-        // ],
+
         "types": [
             "@lesnoypudge/types-global-base",
             "vitest/globals",
@@ -31,19 +28,21 @@
         "noUncheckedIndexedAccess": true,
         "noFallthroughCasesInSwitch": true,
 
-        // "moduleResolution": "NodeNext",
-        // "module": "NodeNext",
-        // "outDir": "dist",
-        // "sourceMap": true,
-        // "declaration": true,
-
-        "moduleResolution": "Bundler",
-        "module": "ESNext",
-        // "noEmit": true,
+        "noEmit": false,
         "outDir": "build",
         "sourceMap": true,
         "declaration": true,
 
-        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        // "moduleResolution": "NodeNext",
+        // "module": "NodeNext",
+
+        "moduleResolution": "Bundler",
+        "module": "ESNext",
+
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
     }
 }
