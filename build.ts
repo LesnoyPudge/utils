@@ -1,10 +1,8 @@
 import ts from 'typescript';
 import fs from 'node:fs';
 import path from 'node:path';
-import { jsonrepair } from 'jsonrepair';
-import tsConfigPaths from "tsconfig-paths";
-import { replaceTscAliasPaths, prepareSingleFileReplaceTscAliasPaths } from 'tsc-alias';
-
+import { replaceTscAliasPaths } from 'tsc-alias';
+import { FolderTree } from "./build/index.js";
 
 
 // const baseConfigFile = fs.readFileSync('./tsconfig.json').toString();
@@ -60,93 +58,172 @@ function filterFiles(fileNames: string[], exclude: string[] | string): string[] 
     return fileNames.filter(file => !excludedFiles.has(path.resolve(file)));
 }
 
-function addFileExtensionTransformer(): ts.TransformerFactory<ts.SourceFile> {
-    return (context) => {
-        return (sourceFile) => {
-            const visitor: ts.Visitor = (node) => {
-                // Process ImportDeclaration
-                if (ts.isImportDeclaration(node) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
-                    const originalText = node.moduleSpecifier.text;
-                    const newText = addJsExtension(originalText);
-                    const newModuleSpecifier = ts.factory.createStringLiteral(newText);
-                    return ts.factory.updateImportDeclaration(
-                        node,
-                        // node.decorators,
-                        node.modifiers,
-                        node.importClause,
-                        newModuleSpecifier,
-                        node.attributes,
-                    );
-                }
+// const addFileExtensionTransformer = (): ts.TransformerFactory<
+//     ts.SourceFile
+// > => {
+//     return (context) => {
+//         return (sourceFile) => {
+//             const visitor: ts.Visitor = (node) => {
+//                 const isImport = ts.isImportDeclaration(node);
+//                 const isExport = ts.isExportDeclaration(node)
+//                 const isImportOrExport = isImport || isExport;
 
-                // Process ExportDeclaration
-                if (ts.isExportDeclaration(node) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
-                    const originalText = node.moduleSpecifier.text;
-                    const newText = addJsExtension(originalText);
-                    const newModuleSpecifier = ts.factory.createStringLiteral(newText);
-                    return ts.factory.updateExportDeclaration(
-                        node,
-                        // node.decorators,
-                        node.modifiers,
-                        node.isTypeOnly,
-                        node.exportClause,
-                        newModuleSpecifier,
-                        node.attributes,
-                    );
-                }
+//                 const shouldProcess = (
+//                     isImportOrExport
+//                     && node.moduleSpecifier 
+//                     && ts.isStringLiteral(node.moduleSpecifier)
+//                     && isUnsolvedRelativePath(node.moduleSpecifier.text)
+//                 );
 
-                return ts.visitEachChild(node, visitor, context);
-            };
+//                 if (!shouldProcess) return ts.visitEachChild(
+//                     node, 
+//                     visitor, 
+//                     context
+//                 );
 
-            return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
-        };
-    };
-}
+//                 // console.log(
+//                 //     sourceFile.fileName,
+//                 //     node.moduleSpecifier.text,
+//                 //     addJsExtension(
+//                 //         sourceFile.fileName,
+//                 //         node.moduleSpecifier.text
+//                 //     )
+//                 // )
+                
 
-// Helper function to add `.js` extension
-function addJsExtension(path: string): string {
-    if (
-        !path.endsWith('.js') 
-        && !path.match(/\.[a-z0-9]+$/)
-        && path.startsWith('./')
-    ) {
-        console.log('path to change:', path, '\n')
-        return `${path}.js`;
-    }
+//                 const newText = addJsExtension(
+//                     sourceFile.fileName,
+//                     node.moduleSpecifier.text,
+//                 );
+//                 // console.log(node.moduleSpecifier.text, newText, '\n')
+//                 const newModuleSpecifier = ts.factory.createStringLiteral(
+//                     newText,
+//                     true,
+//                 );
+
+//                 if (isImport) return ts.factory.updateImportDeclaration(
+//                     node,
+//                     node.modifiers,
+//                     node.importClause,
+//                     newModuleSpecifier,
+//                     node.attributes,
+//                 );
+
+//                 if (isExport) return ts.factory.updateExportDeclaration(
+//                     node,
+//                     node.modifiers,
+//                     node.isTypeOnly,
+//                     node.exportClause,
+//                     newModuleSpecifier,
+//                     node.attributes,
+//                 );
+
+//                 return ts.visitEachChild(node, visitor, context);
+//             };
+
+//             return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
+//         };
+//     };
+
+// }
+
+const isUnsolvedRelativePath = (relativePath: string) => {
+    if (!relativePath.startsWith('./')) return false;
+    if (relativePath.match(/\.[a-zA-Z0-9]+$/)) return false;
     
-    return path;
+    return true;
 }
 
-function transpileFiles(fileNames: string[], options: ts.CompilerOptions): void {
+const getJsExtension = (
+    sourceFilePath: string,
+    relativePath: string
+): string => {
+    const dirPath = path.dirname(sourceFilePath);
+    const jsRelativeFilePath = `${relativePath}.js`;
+    const jsFilePath = path.resolve(
+        dirPath,
+        jsRelativeFilePath
+    );
+    const indexRelativeFilePath = `${relativePath}/index.js`;
+    const indexFilePath = path.resolve(
+        dirPath,
+        indexRelativeFilePath
+    );
+
+    // if (sourceFilePath.endsWith('src/index.js')) {
+    //     console.log({
+    //         sourceFilePath,
+    //         relativePath, 
+    //         dirPath,
+    //         // jsFilePath, 
+    //         indexFilePath,
+    //         indexRelativeFilePath
+    //     })
+    // }
+
+    if (fs.existsSync(jsFilePath)) return jsRelativeFilePath;
+    if (fs.existsSync(indexFilePath)) return indexRelativeFilePath;
+
+    return relativePath;
+}
+
+const transpileFiles = (
+    fileNames: string[], 
+    options: ts.CompilerOptions,
+) => {
     const program = ts.createProgram(fileNames, options);
 
-    // Emit the transpiled code
     const emitResult = program.emit(
         undefined, 
         undefined, 
         undefined, 
         false,
-        {
-            before: [
-                addFileExtensionTransformer()
-            ]
-        }
-    ); // Skip type checking
+    );
 
-    // Check whether the emission is skipped
     if (emitResult.emitSkipped) {
-        console.error(`Failed to emit transpiled files.`);
+        throw new Error("Failed to emit transpiled files.");
     }
 
-    // console.log(options.baseUrl, options.paths)
+    return emitResult.emittedFiles;
+}
+
+const transformFiles = (
+    options: ts.CompilerOptions,
+) => {
     if (options.baseUrl && options.paths) {     
         replaceTscAliasPaths(options);
     }
 
+    if (options.outDir) {
+        // @ts-ignore
+        new FolderTree(options.outDir).traverse((fileOrFolder) => {
+            if (fileOrFolder.type !== 'file') return;
+            
+            const file = fileOrFolder;
+            if (!file.name.endsWith('.js')) return;
 
+            const content = fs.readFileSync(file.path, 'utf8');
+            const updatedContent = content.replace(
+                /(from\s+['"])(\.\/[^'"]+)(['"])/g,
+                (match, leftQuote, relativePath, rightQuote) => {
+                    if (!isUnsolvedRelativePath(relativePath)) return match;
+                    
+                    const newRelativePath = getJsExtension(
+                        file.path,
+                        relativePath,
+                    )
+
+                    return `${leftQuote}${newRelativePath}${rightQuote}`;
+                },
+            );
+
+            fs.writeFileSync(file.path, updatedContent, 'utf8');
+        })
+    }
+    
 }
 
-function main() {
+(() => {
     const { options, fileNames } = getConfigAndFiles();
     
     const filesToTranspile = filterFiles(
@@ -159,25 +236,6 @@ function main() {
     }
 
     transpileFiles(filesToTranspile, options);
-}
 
-main();
-
-
-
-const main2 = () => {
-    const { options, fileNames } = getConfigAndFiles();
-    
-    const filesToTranspile = filterFiles(
-        fileNames, 
-        (options.exclude || []) as string[]
-    );
-
-    if (options.outDir) {
-        fs.rmSync(options.outDir, {force: true, recursive: true});
-    }
-
-    console.log(filesToTranspile)
-}
-
-// main2()
+    transformFiles(options);
+})();
