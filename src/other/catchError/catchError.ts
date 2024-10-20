@@ -3,10 +3,10 @@
 
 export const catchError = <
     _Value,
-    _FallbackValue,
+    _FallbackValue = undefined,
 >(
     fn: () => _Value,
-    fallbackValue: _FallbackValue,
+    fallbackValue?: _FallbackValue,
 ) => {
     try {
         return fn();
