@@ -1,6 +1,7 @@
 {
     "include": [
         "./src/**/*.ts",
+        "./src/**/*.test.ts",
         "node_modules/@types"
     ],
     "compilerOptions": {

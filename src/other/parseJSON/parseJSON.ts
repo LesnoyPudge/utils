@@ -1,13 +1,12 @@
+import { catchError } from '@root';
 
 
 
 export const parseJSON = <ExpectedValue = unknown>(
-    json: string,
-    reviver?: Parameters<typeof JSON.parse>[1],
+    ...params: Parameters<typeof JSON.parse>
 ): ExpectedValue | undefined => {
-    try {
-        return JSON.parse(json, reviver) as ExpectedValue;
-    } catch (error) {
-        return undefined;
-    }
+    return catchError(
+        () => JSON.parse(...params) as ExpectedValue,
+        undefined,
+    );
 };
