@@ -4,16 +4,25 @@ import { catchError } from '@root';
 
 describe('catchError', () => {
     test('1', () => {
-        expect(catchError(() => {
+        const case1 = catchError(() => {
             throw new Error('');
-        }, 1)).toBe(1);
+        });
 
-        expect(catchError(() => {
-            throw new Error('');
-        })).toBe(undefined);
-
-        expect(catchError(() => {
+        const case2 = catchError(() => {
             return 2;
-        }, 1)).toBe(2);
+        });
+
+        const message = 'unusual error';
+        const case3 = catchError(() => {
+            // eslint-disable-next-line @typescript-eslint/only-throw-error
+            throw message;
+        });
+
+        expect(case1[0]).toBe(undefined);
+        expect(case1[1]).toBeInstanceOf(Error);
+        expect(case2[0]).toBe(2);
+        expect(case2[1]).toBe(undefined);
+        expect(case3[1]).toBeInstanceOf(Error);
+        expect(case3[1]?.message).toBe(message);
     });
 });

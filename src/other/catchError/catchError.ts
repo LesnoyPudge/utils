@@ -3,14 +3,21 @@
 
 export const catchError = <
     _Value,
-    _FallbackValue = undefined,
 >(
     fn: () => _Value,
-    fallbackValue?: _FallbackValue,
+): (
+    [_Value, undefined]
+    | [undefined, Error]
 ) => {
     try {
-        return fn();
+        return [fn(), undefined];
     } catch (e) {
-        return fallbackValue;
+        const error = (
+            !(e instanceof Error)
+                ? new Error(String(e))
+                : e
+        );
+
+        return [undefined, error];
     }
 };
