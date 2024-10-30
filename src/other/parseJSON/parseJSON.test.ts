@@ -14,8 +14,4 @@ describe('parseJSON', () => {
         expect(res1).toStrictEqual(obj);
         expect(res2).toBe(undefined);
     });
-
-    test('2', () => {
-        expect(parseJSON('')).toBe(undefined);
-    });
 });

@@ -2,8 +2,8 @@ import { catchError } from '@root';
 
 
 
-export const parseJSON = <ExpectedValue = unknown>(
+export const parseJSON = <_ExpectedValue>(
     ...params: Parameters<typeof JSON.parse>
-): ExpectedValue | undefined => {
-    return catchError(() => JSON.parse(...params) as ExpectedValue);
+): _ExpectedValue | undefined => {
+    return catchError(() => JSON.parse(...params) as _ExpectedValue)[0];
 };
