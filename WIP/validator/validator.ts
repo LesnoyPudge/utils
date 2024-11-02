@@ -122,6 +122,11 @@ const validate = async (
     return result;
 };
 
+// Нужно 3 вида Node
+// 1: Validator (isNumber)
+// 2: Transformer (trim)
+// 3: Modifier (not, msg)
+
 const createValidator = <
     _Shape extends Record<string, unknown>,
     _Value extends T.ValueOf<_Shape>,
@@ -196,22 +201,33 @@ const serverValidator = <
     _Input extends Record<string, unknown>,
 >(
     shapeFactory: (
-        values: _Input
-    ) => Partial<{
-        [_Key in keyof _Input]:
-            ReturnType<typeof createValidator<_Input, _Input[_Key]>>[]
-        }>,
+        values: _Input,
+    ) => {
+        [_Key in keyof _Input]: (
+            ReturnType<typeof createValidator<
+                _Input,
+                _Input[_Key]
+            >>
+        )[]
+    },
+    // shapeFactory: (
+    //     values: _Input
+    // ) => Partial<{
+    //     [_Key in keyof _Input]: ReturnType<
+    //         typeof createValidator<_Input, _Input[_Key]>
+    //     >[]
+    // }>,
 ) => {
     const schema = v.checkAsync(async (input: _Input) => {
-        const shape = shapeFactory(input);
-        const res = await validate(shape, input);
-        console.log('server res:', res);
-        v.setSpecificMessage(schema.reference, res.message);
+        // const shape = shapeFactory(input);
+        // const res = await validate(shape, input);
+        // console.log('server res:', res);
+        // v.setSpecificMessage(schema.reference, res.message);
 
-        return res.success;
+        // return res.success;
         // v.setSchemaMessage('qwezxc');
         // schema. = 'qwezxc';
-        // return false;
+        return true;
     });
 
     return schema;
@@ -287,8 +303,9 @@ const genSchema: v.GenericSchemaAsync<SmallOjb> = v.pipeAsync(
 
     serverValidator((inp) => ({
         a: [
-            _.isAdmin().msg('No Access Permission'),
-            // _.custom(Number.isNaN).msg('non nan'),
+
+            // _.isAdmin().msg('No Access Permission'),
+            // // _.custom(Number.isNaN).msg('non nan'),
             _.custom((value, input) => {
                 console.log('in custom');
                 console.log({
@@ -297,6 +314,9 @@ const genSchema: v.GenericSchemaAsync<SmallOjb> = v.pipeAsync(
                 });
                 return true;
             }),
+        ],
+        b: [
+            // (val, inp) => {},
         ],
     })),
 
@@ -313,7 +333,7 @@ const res = await v.safeParseAsync(genSchema, {
     abortEarly: true,
     abortPipeEarly: true,
 });
-// const res2 = v.parse(genSchema, {});
+// const res2 = v.parseAsync(genSchema, {});
 console.log('res:');
 
 console.log({
