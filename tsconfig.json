@@ -1,8 +1,10 @@
 {
     "include": [
-        "./src/**/*.ts",
-        "./src/**/*.test.ts",
+        "**/*.ts",
         "node_modules/@types"
+    ],
+    "exclude": [
+        "build"
     ],
     "compilerOptions": {
         "explainFiles": false,
