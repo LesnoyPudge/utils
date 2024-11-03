@@ -5,3 +5,4 @@ export * from './ListenerStore';
 export * from './pick';
 export * from './LocalStorage';
 export * from './catchError';
+export * from './catchErrorAsync'
