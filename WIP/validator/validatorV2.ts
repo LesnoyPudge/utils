@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { autoBind, catchError, catchErrorAsync, invariant, toPromise } from '@root';
+import { autoBind, catchError, catchErrorAsync, invariant, promiseToBoolean, STATUS_CODE, toPromise } from '@root';
 import * as v from 'valibot';
 
 
@@ -32,18 +32,70 @@ const smallObjSharedSchema: v.GenericSchema<Endpoint.Create.RequestBody> = v.obj
     ]),
 });
 
-const validationPipe = <_Input>(...checks: any[]) => {
-    const action = v.checkAsync((_: _Input) => {
+
+class Success extends Error {
+    constructor() {
+        super();
+        this.name = 'ValidationSuccess';
+    }
+
+    static throw() {
+        throw new Success();
+    }
+}
+
+class Fail extends Error {
+    constructor() {
+        super();
+        this.name = 'ValidationFail';
+    }
+
+    static throw() {
+        throw new Fail();
+    }
+}
+
+
+export class ApiError extends Error {
+    status: number;
+
+    constructor(status: number, message: string) {
+        super(message);
+        this.name = 'ApiError';
+        this.status = status;
+    }
+
+    static badRequest(message = 'Неверный запрос') {
+        return new ApiError(STATUS_CODE.BAD_REQUEST, message);
+    }
+
+    static unauthorized(message = 'Не авторизован') {
+        return new ApiError(STATUS_CODE.UNAUTHORIZED, message);
+    }
+
+    static notFound(message = 'Не найдено') {
+        return new ApiError(STATUS_CODE.NOT_FOUND, message);
+    }
+
+    static forbidden(message = 'Доступ запрещён') {
+        return new ApiError(STATUS_CODE.FORBIDDEN, message);
+    }
+
+    static internal(message = 'Непредвиденная ошибка') {
+        return new ApiError(STATUS_CODE.INTERNAL_SERVER_ERROR, message);
+    }
+}
+
+type Check = () => Promise<unknown>;
+
+const validationPipe = <_Input>(...checks: Check[]) => {
+    return v.checkAsync(async(_: _Input) => {
         for (const check of checks) {
-            
+            await check();
         }
-        
-        v.setSpecificMessage(action.reference, '');
         
         return true;
     });
-    console.log('huh?')
-    return action;
 }
 
 type Middleware = (req: any, res: any, next: any) => void;
@@ -52,14 +104,18 @@ type SomeValidator = {
     [Endpoint.Create.ActionName]: Endpoint.Create.RequestBody,
 }
 
+type ValidatorShape<
+    _Shape extends Record<string, T.UnknownRecord>
+> = {
+    [_Key in keyof _Shape]: (
+        (req: {body: _Shape[_Key]}) => v.GenericSchemaAsync<_Shape[_Key]>
+    )
+}
+
 const createValidator = <
     _Shape extends Record<string, T.UnknownRecord>,
 >(
-    shape: {
-        [_Key in keyof _Shape]: (
-            (req: {body: _Shape[_Key]}) => v.GenericSchemaAsync<_Shape[_Key]>
-        )
-    }
+    shape: ValidatorShape<_Shape>
 ): Record<keyof _Shape, Middleware> => {
     return (
         Object
@@ -69,16 +125,32 @@ const createValidator = <
                     const schemaFactory = shape[cur];
                     invariant(schemaFactory);
 
-                    const result = await v.safeParseAsync(
+                    const [
+                        result, 
+                        error
+                    ] = await catchErrorAsync(() => v.safeParseAsync(
                         schemaFactory(req), 
-                        req,
+                        req.body,
                         {
                             abortEarly: true,
                             abortPipeEarly: true,
                         }
-                    );
+                    ));
 
-                    // ... rest express stuff
+                    if (result && result.success) return next();
+                    if (result && !result.success) {
+                        return next(ApiError.badRequest())
+                    }
+                    
+                    invariant(error)
+
+                    
+                    if (error instanceof Success) return next();
+                    if (error instanceof Fail) {
+                        return next(ApiError.forbidden());
+                    }
+
+                    return next(ApiError.internal())
                 }
                 return acc;
             }, {})
@@ -87,50 +159,103 @@ const createValidator = <
 
 const sv = {} as any;
 
+const sv2 = {
+    passIf(check: Check) {
+        return async () => {
+            const res = await promiseToBoolean(check());
+            if (res) Success.throw();
+        }
+    },
+
+    failIf(check: Check) {
+        return async () => {
+            const res = await promiseToBoolean(check());
+            if (res) Fail.throw();
+        }
+    },
+
+    not(check: Check) {
+        return async() => {
+            const result = await promiseToBoolean(check());
+            if (result) return Promise.reject();
+        }        
+    },
+    
+    all(...checks: T.NonEmptyArray<Check>) {
+        return async () => {
+            const res = await Promise.all(
+                checks.map((check) => promiseToBoolean(check()))
+            );
+            if (res.includes(false)) Fail.throw();
+        }
+    },
+    
+    oneOf(...checks: T.NonEmptyArray<Check>) {
+        return async () => {
+            for (const check of checks) {
+                const res = await promiseToBoolean(check());
+                if (res) return Promise.resolve();
+            }
+
+            return Promise.reject();
+        }
+    },
+}
+
 const SomeValidator = createValidator<SomeValidator>({
     create: (req) => v.pipeAsync(
         smallObjSharedSchema,
         v.check((inp) => true),
         validationPipe(
-            sv.channelMember(
-                req.auth.id,
-                req.body.channelId,
-            ),
-            sv.channelMember(
-                req.body.targetId,
-                req.body.channelId,
-            ),
-            sv.if(sv.not(
-                sv.channelOwner(
-                    req.auth.id,
-                    req.body.channelId,
-                ),
-            )),
-            sv.not(sv.channelOwner(
-                req.body.targetId,
-                req.body.channelId,
-            )),
-            sv.all([
-                sv.not(
-                    sv.permissionAdministrator(
-                        req.body.targetId,
-                        req.body.channelId,
-                    ),
-                ),
-                sv.oneOf([
-                    sv.permissionAdministrator(
-                        req.auth.id,
-                        req.body.channelId,
-                    ),
-                    sv.permissionBan(
-                        req.auth.id,
-                        req.body.channelId,
-                    ),
-                ]),
-            ])
+            () => {
+                console.log('in pipe')
+                return Promise.resolve()
+            }
         ),
     )
 })
+
+// sv.channelMember(
+//     req.auth.id,
+//     req.body.channelId,
+// ),
+// sv.channelMember(
+//     req.body.targetId,
+//     req.body.channelId,
+// ),
+// sv.if(sv.not(
+//     sv.channelOwner(
+//         req.auth.id,
+//         req.body.channelId,
+//     ),
+// )),
+// sv.not(sv.channelOwner(
+//     req.body.targetId,
+//     req.body.channelId,
+// )),
+// sv.all([
+//     sv.not(
+//         sv.permissionAdministrator(
+//             req.body.targetId,
+//             req.body.channelId,
+//         ),
+//     ),
+//     sv.oneOf([
+//         sv.permissionAdministrator(
+//             req.auth.id,
+//             req.body.channelId,
+//         ),
+//         sv.permissionBan(
+//             req.auth.id,
+//             req.body.channelId,
+//         ),
+//     ]),
+// ])
+
+SomeValidator.create({body: {
+    a: 'qwe',
+    b: 'zxc',
+}}, {}, () => {});
 
 // const genSchema = v.pipeAsync(
 //     smallObjSharedSchema,
