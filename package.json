@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "15.0.2",
+    "version": "16.0.0",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -56,7 +56,7 @@
     "devDependencies": {
         "@lesnoypudge/builder": "^2.0.1",
         "@lesnoypudge/eslint-base-config": "^1.9.0",
-        "@lesnoypudge/eslint-config": "^4.0.0",
+        "@lesnoypudge/eslint-config": "^5.0.0",
         "@lesnoypudge/formatter-config": "^6.1.0",
         "jsdom": "^25.0.1",
         "vitest": "^2.1.4"

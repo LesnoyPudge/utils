@@ -10,17 +10,19 @@ type Reject = (reason?: any) => void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Executor<Result = any> = (res: Resolve<Result>, rej: Reject) => void;
 
-export type DerivedPromiseControls<Result> = {
-    resolve: Resolve<Result>;
-    reject: Reject;
-};
+export namespace derivedPromise {
+    export type Controls<Result> = {
+        resolve: Resolve<Result>;
+        reject: Reject;
+    };
+}
 
 export const derivedPromise = <
     Result = void,
     FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>,
 >(executor?: FN): [
     promise: Promise<Result>,
-    controls: DerivedPromiseControls<Result>,
+    controls: derivedPromise.Controls<Result>,
 ] => {
     let resolve: Resolve<Result> = noop;
     let reject: Reject = noop;
@@ -35,7 +37,7 @@ export const derivedPromise = <
         reject = noop;
     });
 
-    const controls: DerivedPromiseControls<Result> = {
+    const controls: derivedPromise.Controls<Result> = {
         resolve,
         reject,
     };
