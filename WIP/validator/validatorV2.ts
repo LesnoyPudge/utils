@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { autoBind, catchError, catchErrorAsync, invariant, promiseToBoolean, STATUS_CODE, toPromise } from '@root';
+import { catchErrorAsync, invariant, promiseToBoolean, STATUS_CODE } from '@root';
 import * as v from 'valibot';
 
 
@@ -33,25 +33,14 @@ const smallObjSharedSchema: v.GenericSchema<Endpoint.Create.RequestBody> = v.obj
 });
 
 
-class Success extends Error {
+class Bail extends Error {
     constructor() {
         super();
-        this.name = 'ValidationSuccess';
+        this.name = 'ValidationBail';
     }
 
     static throw() {
-        throw new Success();
-    }
-}
-
-class Fail extends Error {
-    constructor() {
-        super();
-        this.name = 'ValidationFail';
-    }
-
-    static throw() {
-        throw new Fail();
+        throw new Bail();
     }
 }
 
@@ -144,11 +133,7 @@ const createValidator = <
                     
                     invariant(error)
 
-                    
-                    if (error instanceof Success) return next();
-                    if (error instanceof Fail) {
-                        return next(ApiError.forbidden());
-                    }
+                    if (error instanceof Bail) return next();
 
                     return next(ApiError.internal())
                 }
@@ -157,20 +142,18 @@ const createValidator = <
     )
 }
 
-const sv = {} as any;
-
-const sv2 = {
+const sv = {
     passIf(check: Check) {
         return async () => {
             const res = await promiseToBoolean(check());
-            if (res) Success.throw();
+            if (res) Bail.throw();
         }
     },
 
     failIf(check: Check) {
         return async () => {
             const res = await promiseToBoolean(check());
-            if (res) Fail.throw();
+            if (res) Promise.reject();
         }
     },
 
@@ -186,7 +169,7 @@ const sv2 = {
             const res = await Promise.all(
                 checks.map((check) => promiseToBoolean(check()))
             );
-            if (res.includes(false)) Fail.throw();
+            if (res.includes(false)) Promise.reject();
         }
     },
     
@@ -205,103 +188,18 @@ const sv2 = {
 const SomeValidator = createValidator<SomeValidator>({
     create: (req) => v.pipeAsync(
         smallObjSharedSchema,
-        v.check((inp) => true),
+        v.check((inp) => !!inp.a),
         validationPipe(
             () => {
-                console.log('in pipe')
+                console.log('in pipe', req)
                 return Promise.resolve()
             }
         ),
     )
 })
 
-// sv.channelMember(
-//     req.auth.id,
-//     req.body.channelId,
-// ),
-// sv.channelMember(
-//     req.body.targetId,
-//     req.body.channelId,
-// ),
-// sv.if(sv.not(
-//     sv.channelOwner(
-//         req.auth.id,
-//         req.body.channelId,
-//     ),
-// )),
-// sv.not(sv.channelOwner(
-//     req.body.targetId,
-//     req.body.channelId,
-// )),
-// sv.all([
-//     sv.not(
-//         sv.permissionAdministrator(
-//             req.body.targetId,
-//             req.body.channelId,
-//         ),
-//     ),
-//     sv.oneOf([
-//         sv.permissionAdministrator(
-//             req.auth.id,
-//             req.body.channelId,
-//         ),
-//         sv.permissionBan(
-//             req.auth.id,
-//             req.body.channelId,
-//         ),
-//     ]),
-// ])
 
 SomeValidator.create({body: {
     a: 'qwe',
     b: 'zxc',
 }}, {}, () => {});
-
-// const genSchema = v.pipeAsync(
-//     smallObjSharedSchema,
-//     v.check((val) => true),
-
-//     validate(() => [
-//         .custom(sv.channelMember(
-//             req.auth.id,
-//             req.body.channelId,
-//         ))
-//         .custom(sv.channelMember(
-//             req.body.targetId,
-//             req.body.channelId,
-//         ))
-//         .if(sv.not(
-//             sv.channelOwner(
-//                 req.auth.id,
-//                 req.body.channelId,
-//             ),
-//         ))
-//         .not()
-//         .custom(sv.channelOwner(
-//             req.body.targetId,
-//             req.body.channelId,
-//         ))
-//         .custom(sv.all([
-//             sv.not(
-//                 sv.permissionAdministrator(
-//                     req.body.targetId,
-//                     req.body.channelId,
-//                 ),
-//             ),
-//             sv.oneOf([
-//                 sv.permissionAdministrator(
-//                     req.auth.id,
-//                     req.body.channelId,
-//                 ),
-//                 sv.permissionBan(
-//                     req.auth.id,
-//                     req.body.channelId,
-//                 ),
-//             ]),
-//         ]))
-//     ])
-//     v.check((input) => {)
-// );
-
-// const [res] = await catchErrorAsync(() => v.parseAsync(genSchema, {}));
-//     ^?
