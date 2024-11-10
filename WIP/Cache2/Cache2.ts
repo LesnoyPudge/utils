@@ -1,3 +1,5 @@
+import { autoBind } from '@root';
+
 type KeyToKeyMap = {};
 
 class Cache2<_Value> {
@@ -66,7 +68,7 @@ class Cache2<_Value> {
             return newValue;
         }
 
-        return undefined;
+        return;
     }
 }
 
