@@ -11,6 +11,7 @@ export * from './css';
 export * from './debounce';
 export * from './derivedPromise';
 export * from './getId';
+export * from './HTTP_METHOD';
 export * from './inRange';
 export * from './KEY';
 export * from './libs';
