@@ -27,3 +27,4 @@ export * from './statusCode';
 export * from './throttle';
 export * from './toPromise';
 export * from './namespace';
+export * from './never';
