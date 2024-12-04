@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "16.2.0",
+    "version": "16.3.0",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -31,7 +31,8 @@
         "lint:check": "eslint .",
         "lint:fix": "eslint . --fix",
         "type:check": "tsc --noEmit -p tsconfig.json",
-        "type:watch": "tsc --noEmit -watch -p tsconfig.json"
+        "type:watch": "tsc --noEmit -watch -p tsconfig.json",
+        "prepublishOnly": "npm run build"
     },
     "keywords": [
         "lesnoypudge",
