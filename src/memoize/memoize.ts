@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { Cache } from '@root';
+import { Cache } from '@root/Cache';
 
 
 

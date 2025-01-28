@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { noop } from '@root';
+import { noop } from '@root/noop';
 
 
 

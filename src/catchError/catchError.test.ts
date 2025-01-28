@@ -1,4 +1,4 @@
-import { catchError } from '@root';
+import { catchError } from './catchError';
 
 
 

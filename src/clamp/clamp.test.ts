@@ -1,4 +1,4 @@
-import { clamp } from '@root';
+import { clamp } from './clamp';
 
 
 

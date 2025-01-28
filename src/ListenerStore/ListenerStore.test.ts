@@ -1,4 +1,5 @@
-import { ListenerStore, Counter } from '@root';
+import { Counter } from '@root/Counter';
+import { ListenerStore } from './ListenerStore';
 
 
 

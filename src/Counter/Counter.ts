@@ -1,4 +1,5 @@
-import { ListenerStore, autoBind } from '@root';
+import { ListenerStore } from '@root/ListenerStore';
+import { autoBind } from '@root/libs';
 
 
 

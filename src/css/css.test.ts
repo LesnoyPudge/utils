@@ -1,4 +1,4 @@
-import { css } from '@root';
+import { css } from './css';
 
 
 

@@ -1,4 +1,4 @@
-import { parseJSON } from '@root';
+import { parseJSON } from './parseJSON';
 
 
 

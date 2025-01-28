@@ -27,5 +27,5 @@ export * from './shallowEqual';
 export * from './sleep';
 export * from './statusCode';
 export * from './throttle';
+export * from './toOneLine';
 export * from './toPromise';
-export * from './namespace';

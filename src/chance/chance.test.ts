@@ -1,4 +1,4 @@
-import { chance } from '@root';
+import { chance } from './chance';
 
 
 

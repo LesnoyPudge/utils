@@ -3,12 +3,14 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { Counter, memoize, sleep } from '@root';
+import { memoize } from './memoize';
+import { Counter } from '@root/Counter';
+import { sleep } from '@root/sleep';
 
 
 
 describe('memoize', () => {
-    describe(`in case of encountering same args, 
+    test(`in case of encountering same args, 
         memoized function should not be called`, () => {
         const { get, inc } = new Counter();
         const memoizedFunc = memoize((..._: any[]) => {
@@ -33,14 +35,11 @@ describe('memoize', () => {
             [1, 2],
         ];
 
-        test(`for ${argsList.length} runs, 
-            should be called ${expectedCallCount} times`, () => {
-            argsList.forEach((args) => {
-                memoizedFunc(...args);
-            });
-
-            expect(get()).toBe(expectedCallCount);
+        argsList.forEach((args) => {
+            memoizedFunc(...args);
         });
+
+        expect(get()).toBe(expectedCallCount);
     });
 
     describe('results with same arguments should be equal', () => {

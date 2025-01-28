@@ -1,4 +1,4 @@
-import { sleep } from '@root';
+import { sleep } from './sleep';
 
 
 

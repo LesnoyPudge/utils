@@ -1,4 +1,6 @@
-import { Counter, debounce, sleep } from '@root';
+import { Counter } from '@root/Counter';
+import { debounce } from './debounce';
+import { sleep } from '@root/sleep';
 
 
 

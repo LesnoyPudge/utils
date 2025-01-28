@@ -1,15 +1,15 @@
-import { defineConfig } from 'vitest/config';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig, mergeConfig } from 'vitest/config';
+import viteConfig from './vite.config';
 
 
 
-export default defineConfig({
-    plugins: [tsconfigPaths()],
+const config = mergeConfig(viteConfig, defineConfig({
     test: {
+        include: ['./src/**/*.test.*'],
         globals: true,
-        environment: 'jsdom',
-        include: [
-            './src/**/*.test.ts',
-        ],
+        mockReset: true,
+        environment: 'node',
     },
-});
+}));
+
+export default config;

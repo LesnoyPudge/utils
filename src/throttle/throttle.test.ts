@@ -1,4 +1,6 @@
-import { Counter, sleep, throttle } from '@root';
+import { Counter } from '@root/Counter';
+import { throttle } from './throttle';
+import { sleep } from '@root/sleep';
 
 
 

@@ -15,7 +15,7 @@ export const isPlainObject = (value: unknown): value is T.UnknownRecord => {
 
     // If has modified constructor
     const ctor = value.constructor;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
     if (ctor === undefined) return true;
 
     // If has modified prototype

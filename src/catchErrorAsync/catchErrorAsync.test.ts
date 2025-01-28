@@ -1,4 +1,4 @@
-import { catchErrorAsync } from '@root';
+import { catchErrorAsync } from './catchErrorAsync';
 
 
 

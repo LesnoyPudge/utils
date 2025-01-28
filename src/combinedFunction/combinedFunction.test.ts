@@ -1,4 +1,4 @@
-import { Counter } from '@root';
+import { Counter } from '@root/Counter';
 import { combinedFunction } from './combinedFunction';
 
 

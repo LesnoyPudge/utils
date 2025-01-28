@@ -1,4 +1,4 @@
-import { promiseToBoolean } from '@root';
+import { promiseToBoolean } from './promiseToBoolean';
 
 
 

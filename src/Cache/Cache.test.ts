@@ -1,4 +1,4 @@
-import { Cache } from '@root';
+import { Cache } from './Cache';
 
 
 

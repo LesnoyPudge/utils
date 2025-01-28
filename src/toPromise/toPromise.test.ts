@@ -1,4 +1,4 @@
-import { toPromise } from '@root';
+import { toPromise } from './toPromise';
 
 
 

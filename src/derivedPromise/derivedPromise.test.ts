@@ -1,4 +1,5 @@
-import { derivedPromise, sleep } from '@root';
+import { sleep } from '@root/sleep';
+import { derivedPromise } from './derivedPromise';
 
 
 

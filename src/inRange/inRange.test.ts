@@ -1,4 +1,4 @@
-import { inRange } from '@root';
+import { inRange } from './inRange';
 
 
 

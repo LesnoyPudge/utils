@@ -3,7 +3,7 @@ import { T } from '@lesnoypudge/types-utils-base/namespace';
 
 
 export const pick = <
-    _Source extends T.UnknownRecord,
+    _Source extends object,
     _Keys extends keyof _Source,
 >(
     source: _Source,
