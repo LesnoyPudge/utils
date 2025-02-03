@@ -21,6 +21,7 @@ export * from './memoize';
 export * from './never';
 export * from './noop';
 export * from './parseJSON';
+export * from './patch';
 export * from './pick';
 export * from './promiseToBoolean';
 export * from './shallowEqual';
