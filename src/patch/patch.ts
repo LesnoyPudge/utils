@@ -1,5 +1,7 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
 import { isCallable } from '@root/libs';
+import { never } from '@root/never';
+import { noop } from '@root/noop';
 
 
 
@@ -38,25 +40,35 @@ export const patch = <
     _ObjectToPatch extends object,
     _MethodName extends patch.GetNamesOfMethods<_ObjectToPatch>,
     _PatchedMethod extends patch.GetPatchedMethod<_ObjectToPatch, _MethodName>,
->(
-    objectToPatch: _ObjectToPatch,
-    methodName: _MethodName,
+>(options: {
+    objectToPatch: _ObjectToPatch;
+    providedThis: _ObjectToPatch;
+    methodName: _MethodName;
     patchedMethodFactory: patch.GetPatchedMethodFactory<
         _ObjectToPatch,
         _MethodName,
         _PatchedMethod
-    >,
-): () => void => {
+    >;
+}): () => void => {
+    const {
+        methodName,
+        objectToPatch,
+        providedThis,
+        patchedMethodFactory,
+    } = options;
+
     const originalMethod = objectToPatch[methodName];
 
-    if (isCallable(originalMethod)) {
-        const patchedMethod = patchedMethodFactory(
-            originalMethod.bind(objectToPatch),
-        );
+    if (!isCallable(originalMethod)) return noop;
 
-        // @ts-expect-error
-        objectToPatch[methodName] = patchedMethod.bind(objectToPatch);
-    }
+    const patchedMethod = patchedMethodFactory(
+        originalMethod.bind(providedThis),
+    );
+
+    if (!isCallable(patchedMethod)) never('Factory should return function');
+
+    // @ts-expect-error
+    objectToPatch[methodName] = patchedMethod.bind(providedThis);
 
     const restore = () => {
         objectToPatch[methodName] = originalMethod;

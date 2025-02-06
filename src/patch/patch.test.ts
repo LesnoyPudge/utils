@@ -9,11 +9,12 @@ describe('patch', () => {
             add: (a: number, b: number) => a + b,
         };
 
-        const restore = patch(
+        const restore = patch({
             objectToPatch,
-            'add',
-            () => (a, b) => a * b,
-        );
+            providedThis: objectToPatch,
+            methodName: 'add',
+            patchedMethodFactory: () => (a, b) => a * b,
+        });
 
         expect(objectToPatch.add(2, 3)).toBe(6);
 
@@ -35,16 +36,36 @@ describe('patch', () => {
 
         const calculator = new Calculator();
 
-        patch(
-            calculator,
-            'add',
-            (originalMethod) => {
+        patch({
+            objectToPatch: calculator,
+            providedThis: calculator,
+            methodName: 'add',
+            patchedMethodFactory: (originalMethod) => {
                 return (val) => {
                     return originalMethod(val) + 5;
                 };
             },
-        );
+        });
 
         expect(calculator.add(5)).toBe(15);
+    });
+
+    it('should patch Date object', () => {
+        const restore = patch({
+            objectToPatch: Date as DateConstructor,
+            methodName: 'now',
+            providedThis: Date,
+            patchedMethodFactory: () => {
+                return () => {
+                    return 123;
+                };
+            },
+        });
+
+        expect(Date.now()).toBe(123);
+
+        restore();
+
+        expect(Date.now()).greaterThan(123);
     });
 });

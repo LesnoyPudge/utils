@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "17.1.0",
+    "version": "18.0.0",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
