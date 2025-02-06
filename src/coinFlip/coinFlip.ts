@@ -2,6 +2,9 @@ import { chance } from '@root/chance';
 
 
 
-export const coinFlip = () => {
-    return !!chance(0.5);
+/**
+ * Returns true or false with equal chance.
+ */
+export const coinFlip = (): boolean => {
+    return chance(0.5);
 };

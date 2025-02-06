@@ -1,6 +1,9 @@
 
 
 
+/**
+ * Catches errors in provided function.
+ */
 export const catchError = <
     _Value,
 >(

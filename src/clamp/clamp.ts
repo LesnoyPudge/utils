@@ -1,6 +1,9 @@
 
 
 
+/**
+ * Returns number that is within provided borders.
+ */
 export const clamp = (
     firstBorder: number,
     current: number,

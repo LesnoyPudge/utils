@@ -3,7 +3,7 @@ import { parseJSON } from './parseJSON';
 
 
 describe('parseJSON', () => {
-    test('1', () => {
+    it('should parse error values to undefined', () => {
         const obj = { a: 1, b: '2' };
         const validJSON = JSON.stringify(obj);
         const invalidJSON = '{"a": 1, b: "2"}';

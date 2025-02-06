@@ -1,21 +1,10 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "18.0.0",
+    "version": "19.0.0",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
     "main": "./build/index.js",
-    "exports": {
-        ".": {
-            "import": "./build/index.js",
-            "types": "./build/index.d.ts"
-        },
-        "./namespace": {
-            "import": "./build/namespace.js",
-            "types": "./build/namespace.d.ts"
-        },
-        "./package.json": "./package.json"
-    },
     "files": [
         "build"
     ],

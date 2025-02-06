@@ -3,7 +3,7 @@ import { toPromise } from './toPromise';
 
 
 describe('toPromise', () => {
-    test('1', async () => {
+    it('should convert provided function to promise', async () => {
         const simpleResult = 1;
         const simple = () => simpleResult;
 

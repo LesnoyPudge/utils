@@ -50,6 +50,11 @@ class CacheLayer<PossibleValues> {
     }
 }
 
+
+
+/**
+ * Storage that uses references as keys.
+ */
 export class Cache<PossibleValues> {
     private layer: CacheLayer<PossibleValues> | undefined;
 

@@ -1,21 +1,22 @@
-import { Counter } from '@root/Counter';
 import { debounce } from './debounce';
-import { sleep } from '@root/sleep';
 
 
+
+vi.useFakeTimers();
 
 describe('debounce', () => {
-    test('1', async () => {
-        const c = new Counter();
+    it('should only register last call', () => {
+        const DELAY = 100;
+        const spy = vi.fn();
 
-        const debounced = debounce((val: number) => c.inc(val), 100);
+        const debounced = debounce(spy, DELAY);
 
         debounced(5);
         debounced(5);
         debounced(3);
 
-        await sleep(200);
+        vi.advanceTimersByTime(DELAY);
 
-        expect(c.get()).toBe(3);
+        expect(spy).toBeCalledWith(3);
     });
 });

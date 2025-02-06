@@ -1,6 +1,9 @@
 
 
 
+/**
+ * Returns random integer between provided bounds.
+ */
 export const inRange = (min: number, max: number) => {
     max = Math.floor(max);
     min = Math.ceil(min);

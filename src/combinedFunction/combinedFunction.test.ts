@@ -4,17 +4,17 @@ import { combinedFunction } from './combinedFunction';
 
 
 describe('combinedFunction', () => {
-    test('1', () => {
-        const c = new Counter();
+    it('should call every provided functions at once', () => {
+        const spy = vi.fn();
 
         const combined = combinedFunction(
-            c.inc,
-            c.inc,
-            c.inc,
+            spy,
+            spy,
+            spy,
         );
 
         combined();
 
-        expect(c.get()).toBe(3);
+        expect(spy).toBeCalledTimes(3);
     });
 });

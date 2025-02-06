@@ -17,6 +17,10 @@ export namespace derivedPromise {
     };
 }
 
+
+/**
+ * Return controls and promise started by provided executor.
+ */
 export const derivedPromise = <
     Result = void,
     FN extends Executor = T.AnyFunction<[Resolve<Result>, Reject], void>,

@@ -15,6 +15,10 @@ export type ToOneLine<_Text extends string> = (
         : never
 );
 
+/**
+ * Takes string in any format and returns single
+ * line with single whitespace between words.
+ */
 export const toOneLine = <_Text extends string>(
     text: _Text,
 ) => {

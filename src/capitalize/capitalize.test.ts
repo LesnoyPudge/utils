@@ -3,7 +3,7 @@ import { capitalize } from './capitalize';
 
 
 describe('capitalize', () => {
-    test('1', () => {
+    it('should capitalize string', () => {
         expect(capitalize('test')).toBe('Test');
     });
 });

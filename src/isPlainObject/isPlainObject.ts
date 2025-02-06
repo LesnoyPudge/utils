@@ -8,6 +8,10 @@ const isObject = (value: unknown): value is object => {
     return Object.prototype.toString.call(value) === '[object Object]';
 };
 
+/**
+ * Checks if provided value is plain object,
+ * and not something that extends object.
+ */
 export const isPlainObject = (value: unknown): value is T.UnknownRecord => {
     // let ctor, prot;
 

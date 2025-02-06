@@ -2,6 +2,9 @@ import { T } from '@lesnoypudge/types-utils-base/namespace';
 
 
 
+/**
+ * Converts provided function into a promise.
+ */
 export const toPromise = <_Fn extends T.AnyFunction>(
     fn: _Fn,
 ): (...args: Parameters<_Fn>) => Promise<Awaited<ReturnType<_Fn>>> => {

@@ -8,6 +8,10 @@ export namespace ListenerStore {
     );
 }
 
+/**
+ * Store for callbacks.
+ * Provides ability to execute callbacks on demand.
+ */
 export class ListenerStore<
     Key,
     Args extends unknown[],

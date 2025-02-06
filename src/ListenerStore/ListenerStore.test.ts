@@ -1,28 +1,32 @@
-import { Counter } from '@root/Counter';
 import { ListenerStore } from './ListenerStore';
 
 
 
 describe('ListenerStore', () => {
-    test('1', () => {
+    it('should subscribe, unsubscribe and trigger listeners', () => {
         const store = new ListenerStore<string, [number]>();
-        const c1 = new Counter();
-        const c2 = new Counter();
+        const firstSpy = vi.fn();
+        const secondSpy = vi.fn();
 
-        store.add('1', c1.inc);
-        store.add('2', c2.inc);
-        store.add('2', c2.inc);
-        store.add('2', (v) => c2.inc(v));
+        store.add('1', firstSpy);
+        store.add('2', secondSpy);
+        store.add('2', secondSpy);
+        store.add('2', (v) => {
+            secondSpy(v);
+        });
 
-        store.trigger('1', 5);
+        store.trigger('1', 2);
 
-        store.remove('1', c1.inc);
+        store.remove('1', firstSpy);
 
         store.trigger('1', 10);
 
         store.trigger('2', 5);
 
-        expect(c1.get()).toBe(5);
-        expect(c2.get()).toBe(10);
+        expect(firstSpy).toBeCalledTimes(1);
+        expect(firstSpy).toBeCalledWith(2);
+
+        expect(secondSpy).toBeCalledTimes(2);
+        expect(secondSpy).toBeCalledWith(5);
     });
 });

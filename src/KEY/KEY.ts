@@ -4,6 +4,9 @@ import { T } from '@lesnoypudge/types-utils-base/namespace';
 
 export type KEY = T.ValueOf<typeof KEY>;
 
+/**
+ * Commonly used keyboard keys.
+ */
 export const KEY = {
     Space: ' ',
     Num0: '0',

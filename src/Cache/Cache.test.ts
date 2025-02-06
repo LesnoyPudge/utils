@@ -3,7 +3,7 @@ import { Cache } from './Cache';
 
 
 describe('cache', () => {
-    test('base', () => {
+    it('base', () => {
         const cache = new Cache();
 
         cache.set([''], 1);

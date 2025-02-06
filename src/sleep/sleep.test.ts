@@ -3,7 +3,7 @@ import { sleep } from './sleep';
 
 
 describe('sleep', () => {
-    test('1', async () => {
+    it('should pass some time', async () => {
         const startTime = performance.now();
 
         await sleep();
@@ -11,7 +11,7 @@ describe('sleep', () => {
         expect(performance.now()).toBeGreaterThan(startTime);
     });
 
-    test('2', async () => {
+    it('should pass at least specified amount of time', async () => {
         const startTime = performance.now();
         const duration = 100;
         const expectedTime = startTime + (duration * 0.9);

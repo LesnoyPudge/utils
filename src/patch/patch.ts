@@ -36,6 +36,9 @@ export namespace patch {
     );
 }
 
+/**
+ * Replaces desired method with custom one.
+ */
 export const patch = <
     _ObjectToPatch extends object,
     _MethodName extends patch.GetNamesOfMethods<_ObjectToPatch>,

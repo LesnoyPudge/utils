@@ -3,7 +3,7 @@ import { catchError } from './catchError';
 
 
 describe('catchError', () => {
-    test('1', () => {
+    it('should catch errors inside provided function', () => {
         const case1 = catchError(() => {
             throw new Error('');
         });

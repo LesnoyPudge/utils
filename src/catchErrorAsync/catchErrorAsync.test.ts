@@ -3,7 +3,7 @@ import { catchErrorAsync } from './catchErrorAsync';
 
 
 describe('catchErrorAsync', () => {
-    test('1', async () => {
+    it('should catch errors inside provided promise', async () => {
         const case1 = await catchErrorAsync(() => {
             throw new Error('');
         });

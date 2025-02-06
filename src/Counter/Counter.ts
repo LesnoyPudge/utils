@@ -7,6 +7,9 @@ type Args = [value: number];
 type Store = ListenerStore<null, Args>;
 type StoreCallback = ListenerStore.Callback<Args>;
 
+/**
+ * Provides counter with abilities to manipulate and listen for value change.
+ */
 export class Counter {
     private count: number;
     private initialCount: number;

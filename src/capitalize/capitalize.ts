@@ -1,6 +1,9 @@
 
 
 
+/**
+ * Capitalizes provided string.
+ */
 export const capitalize = <
     _Value extends string,
 >(word: _Value): Capitalize<_Value> => {

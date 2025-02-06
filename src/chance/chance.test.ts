@@ -3,7 +3,7 @@ import { chance } from './chance';
 
 
 describe('chance', () => {
-    test('1', () => {
+    it('should return expected result', () => {
         expect(chance(0)).toBe(false);
         expect(chance(1)).toBe(true);
 

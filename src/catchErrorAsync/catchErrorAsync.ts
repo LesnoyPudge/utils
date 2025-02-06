@@ -1,6 +1,9 @@
 
 
 
+/**
+ * Catches errors in provided async function.
+ */
 export const catchErrorAsync = async<
     _Value,
 >(

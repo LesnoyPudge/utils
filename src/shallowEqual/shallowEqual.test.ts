@@ -3,7 +3,7 @@ import { shallowEqual } from './shallowEqual';
 
 
 describe('shallowEqual', () => {
-    test('1', () => {
+    it('should shallowly compare values', () => {
         expect(shallowEqual({
             data: '',
         }, {
@@ -18,7 +18,7 @@ describe('shallowEqual', () => {
         })).toBe(false);
     });
 
-    test('2', () => {
+    it('should work with different data types', () => {
         expect(shallowEqual(1, 1)).toBe(true);
         expect(shallowEqual('', '')).toBe(true);
         expect(shallowEqual([], [])).toBe(true);

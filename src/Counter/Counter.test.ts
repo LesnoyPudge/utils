@@ -3,7 +3,7 @@ import { Counter } from './Counter';
 
 
 describe('counter', () => {
-    test('1', () => {
+    it('should provide working methods', () => {
         const {
             increase,
             get,
@@ -58,7 +58,7 @@ describe('counter', () => {
         expect(get()).toBe(5);
     });
 
-    test('2', () => {
+    it('should work with initialValue and step', () => {
         const {
             get,
             inc,
@@ -78,16 +78,14 @@ describe('counter', () => {
         expect(get()).toBe(0);
     });
 
-    test('3', () => {
+    it('should notify on change', () => {
         const c = new Counter();
-        let result = 0;
+        const spy = vi.fn();
 
-        c.onCountChange((value) => {
-            result = value;
-        });
+        c.onCountChange(spy);
 
         c.inc(2);
 
-        expect(result).toBe(2);
+        expect(spy).toBeCalledWith(2);
     });
 });

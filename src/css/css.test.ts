@@ -3,7 +3,7 @@ import { css } from './css';
 
 
 describe('css', () => {
-    test('1', () => {
+    it('should return same string', () => {
         const res = css`
             html {
                 color: 'red'

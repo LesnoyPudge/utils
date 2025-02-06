@@ -8,6 +8,11 @@ type Controls = {
     reset: () => void;
 };
 
+
+/**
+ * Wraps provided function and prevents it from being called
+ * more then once per provided time span.
+ */
 export const throttle = <FN extends T.AnyFunction>(
     fn: FN,
     delayMS: number,

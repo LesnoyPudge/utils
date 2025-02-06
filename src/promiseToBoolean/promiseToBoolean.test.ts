@@ -3,7 +3,7 @@ import { promiseToBoolean } from './promiseToBoolean';
 
 
 describe('promiseToBoolean', () => {
-    test('1', async () => {
+    it('should return result of promise as boolean', async () => {
         expect(
             await promiseToBoolean(Promise.resolve()),
         ).toBe(true);

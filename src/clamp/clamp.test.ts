@@ -3,7 +3,7 @@ import { clamp } from './clamp';
 
 
 describe('clamp', () => {
-    test('base', () => {
+    it('base', () => {
         expect(clamp(0, 15, 20)).toBe(15);
 
         expect(clamp(0, 15, 13)).toBe(13);

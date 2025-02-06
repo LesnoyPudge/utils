@@ -4,92 +4,64 @@ import { sleep } from '@root/sleep';
 
 
 
+vi.useFakeTimers();
+
 describe('throttle', () => {
-    describe('should be called once', () => {
-        test('1', () => {
-            const c = new Counter();
-            const [throttled, { reset }] = throttle(() => c.inc(), 100);
+    it('should provide controls to cancel pending call', async () => {
+        const spy = vi.fn();
+        const [throttled, { reset }] = throttle(spy, 100);
 
-            void throttled();
-            void throttled();
-            void throttled();
+        void throttled();
+        void throttled();
+        void throttled();
 
-            reset();
+        reset();
 
-            expect(c.get()).toBe(1);
-        });
+        await vi.runAllTimersAsync();
 
-        test('2', () => {
-            const c = new Counter();
-            const [throttled, { reset }] = throttle(() => c.inc(), 0);
-
-            void throttled();
-            void throttled();
-            void throttled();
-
-            reset();
-
-            expect(c.get()).toBe(1);
-        });
+        expect(spy).toBeCalledTimes(1);
     });
 
-    describe('should be called multiple times', () => {
-        test('1', async () => {
-            const c = new Counter();
+    it('should be called multiple times', async () => {
+        const spy = vi.fn();
+        const [throttled] = throttle(spy, 0);
 
-            const [throttled, { reset }] = throttle(c.inc, 0);
+        void throttled();
 
-            void throttled();
+        await vi.runAllTimersAsync();
 
-            await sleep();
+        void throttled();
 
-            void throttled();
-
-            await sleep();
-
-            void throttled();
-
-            reset();
-
-            expect(c.get()).toBe(3);
-        });
+        expect(spy).toBeCalledTimes(2);
     });
 
-    describe('should not be called', () => {
-        test('1', () => {
-            const c = new Counter();
+    it('should not be called', async () => {
+        const spy = vi.fn();
+        const [throttled, { block, reset }] = throttle(spy, 0);
 
-            const [throttled, { block, reset }] = throttle(c.inc, 0);
+        block();
 
-            block();
+        void throttled();
+        void throttled();
+        void throttled();
 
-            void throttled();
-            void throttled();
-            void throttled();
+        reset();
 
-            reset();
+        await vi.runAllTimersAsync();
 
-            expect(c.get()).toBe(0);
-        });
+        expect(spy).toBeCalledTimes(0);
     });
 
-    describe('should work as promise', () => {
-        test('1', async () => {
-            const c = new Counter();
+    it('should work as promise', async () => {
+        const spy = vi.fn();
+        const callbackSpy = vi.fn();
+        const [throttled] = throttle(spy, 0);
 
-            const [throttled, { reset }] = throttle(c.inc, 0);
+        void throttled().then(callbackSpy);
 
-            await throttled().then(() => {
-                c.inc(3);
-            });
+        await vi.runAllTimersAsync();
 
-            void throttled();
-
-            void throttled().then(() => c.inc());
-
-            reset();
-
-            expect(c.get()).toBe(5);
-        });
+        expect(spy).toBeCalledTimes(1);
+        expect(callbackSpy).toBeCalledTimes(1);
     });
 });

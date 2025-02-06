@@ -2,6 +2,9 @@ import { T } from '@lesnoypudge/types-utils-base/namespace';
 
 
 
+/**
+ * Creates new object from provided fields.
+ */
 export const pick = <
     _Source extends object,
     _Keys extends keyof _Source,

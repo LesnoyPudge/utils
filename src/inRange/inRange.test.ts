@@ -3,7 +3,10 @@ import { inRange } from './inRange';
 
 
 describe('inRange', () => {
-    test('1', () => {
+    it(`
+        should work with: same, decimal, negative 
+        and inverted borders    
+    `, () => {
         expect(inRange(0, 0)).toBe(0);
 
         expect(inRange(1, 3)).toBeGreaterThanOrEqual(1);
