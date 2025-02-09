@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "19.0.0",
+    "version": "19.0.1",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -41,15 +41,15 @@
     },
     "devDependencies": {
         "@lesnoypudge/builder": "^5.0.1",
-        "@lesnoypudge/eslint-config": "^7.0.0",
+        "@lesnoypudge/eslint-config": "^11.0.0",
         "@lesnoypudge/formatter-config": "^8.0.0",
         "@lesnoypudge/types-global-node": "^1.0.1",
         "glob": "^11.0.1",
         "typescript": "^5.7.3",
-        "vite": "^6.0.11",
+        "vite": "^6.1.0",
         "vite-plugin-checker": "^0.8.0",
         "vite-plugin-dts": "^4.5.0",
         "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^3.0.4"
+        "vitest": "^3.0.5"
     }
 }
