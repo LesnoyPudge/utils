@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "19.0.1",
+    "version": "19.0.2",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -11,7 +11,7 @@
     "scripts": {
         "test:check": "vitest --run",
         "test:watch": "vitest",
-        "publish": "npm publish --access public",
+        "npm:publish": "npm publish --access public",
         "deploy": "git add . && git commit -m 'update' && git push && git status",
         "build": "vite build",
         "formatter:config": "formatter-config",
