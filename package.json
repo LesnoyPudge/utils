@@ -18,7 +18,7 @@
         "lint:check": "eslint",
         "lint:fix": "eslint --fix",
         "type:check": "tsc --noEmit -p tsconfig.node.build.json",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run type:check && npm run test:check && npm run build"
     },
     "keywords": [
         "lesnoypudge",
