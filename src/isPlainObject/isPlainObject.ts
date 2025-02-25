@@ -9,8 +9,7 @@ const isObject = (value: unknown): value is object => {
 };
 
 /**
- * Checks if provided value is plain object,
- * and not something that extends object.
+ * Checks if provided value is plain object.
  */
 export const isPlainObject = (value: unknown): value is T.UnknownRecord => {
     // let ctor, prot;

@@ -27,6 +27,7 @@ export * from './pick';
 export * from './promiseToBoolean';
 export * from './shallowEqual';
 export * from './sleep';
+export * from './sortFns';
 export * from './throttle';
 export * from './toOneLine';
 export * from './toPromise';
