@@ -9,14 +9,14 @@
  */
 export const sortFns = {
     /**
-     * Sorts numbers in ascending order.
+     * Sorts numbers from lowest to biggest.
      */
     ascending: (a: number, b: number) => {
         return a - b;
     },
 
     /**
-     * Sorts numbers in descending order.
+     * Sorts numbers from biggest to lowest.
      */
     descending: (a: number, b: number) => {
         return b - a;
