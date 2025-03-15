@@ -22,54 +22,48 @@ const withSelectors = <_Value>(
     return fn as SortFnWithSelectors<_Value>;
 };
 
-class SortFns {
-    /**
-     * Sort numbers from smallest to biggest.
-     *
-     * Alias to smallToBig.
-     */
-    ascending = withSelectors((a: number, b: number) => {
-        return a - b;
-    });
 
-    /**
-     * Sort numbers from smallest to biggest.
-     *
-     * Alias to ascending.
-     */
-    smallToBig = this.ascending;
+/**
+ * Sort numbers from smallest to biggest.
+ *
+ * Alias to smallToBig.
+ */
+const ascending = withSelectors((a: number, b: number) => {
+    return a - b;
+});
 
-    /**
-     * Sort numbers from biggest to smallest.
-     *
-     * Alias to bigToSmall.
-     */
-    descending = withSelectors((a: number, b: number) => {
-        return b - a;
-    });
+/**
+ * Sort numbers from smallest to biggest.
+ *
+ * Alias to ascending.
+ */
+const smallToBig = ascending;
 
-    /**
-     * Sort numbers from biggest to smallest.
-     *
-     * Alias to descending.
-     */
-    bigToSmall = this.descending;
-}
+/**
+ * Sort numbers from biggest to smallest.
+ *
+ * Alias to bigToSmall.
+ */
+const descending = withSelectors((a: number, b: number) => {
+    return b - a;
+});
+
+/**
+ * Sort numbers from biggest to smallest.
+ *
+ * Alias to descending.
+ */
+const bigToSmall = descending;
 
 /**
  * A collection of sorting functions.
  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
  */
-// eslint-disable-next-line @typescript-eslint/no-misused-spread
-export const sortFns = { ...new SortFns() };
 
-const qwe = sortFns.ascending.select<{ v: number }>(
-    // ^?
-    (a) => a.v,
-);
-
-const zxc = [{ v: 5 }, { v: 4 }].sort(
-    // sortFns.ascending.select((a) => a.v, (b) => b.v),
-    qwe,
-);
+export const sortFns = {
+    ascending,
+    smallToBig,
+    descending,
+    bigToSmall,
+};
