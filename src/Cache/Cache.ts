@@ -1,3 +1,4 @@
+import { autoBind } from '@root/libs';
 
 
 
@@ -50,13 +51,15 @@ class CacheLayer<PossibleValues> {
     }
 }
 
-
-
 /**
  * Storage that uses references as keys.
  */
 export class Cache<PossibleValues> {
     private layer: CacheLayer<PossibleValues> | undefined;
+
+    constructor() {
+        autoBind(this);
+    }
 
     private getOrCreateLayer(key: Key) {
         if (!this.layer) {

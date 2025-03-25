@@ -1,4 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
+import { autoBind } from '@root/libs';
 
 
 
@@ -20,6 +21,8 @@ export class ListenerStore<
 
     constructor() {
         this.store = new Map();
+
+        autoBind(this);
     }
 
     add(key: Key, listener: ListenerStore.Callback<Args>) {
