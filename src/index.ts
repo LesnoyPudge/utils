@@ -31,3 +31,4 @@ export * from './sortFns';
 export * from './throttle';
 export * from './toOneLine';
 export * from './toPromise';
+export * from './unhandled';
