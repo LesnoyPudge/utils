@@ -24,6 +24,8 @@ export * from './noop';
 export * from './parseJSON';
 export * from './patch';
 export * from './pick';
+export * from './promiseRetry';
+export * from './promiseTimeout';
 export * from './promiseToBoolean';
 export * from './shallowEqual';
 export * from './sleep';
