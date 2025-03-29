@@ -1,6 +1,6 @@
 {
     "name": "@lesnoypudge/utils",
-    "version": "19.5.0",
+    "version": "19.5.1",
     "description": "lesnoypudge's utils",
     "type": "module",
     "types": "./build/index.d.ts",
@@ -8,6 +8,7 @@
     "files": [
         "build"
     ],
+    "sideEffects": false,
     "scripts": {
         "test:check": "vitest --run",
         "test:watch": "vitest",

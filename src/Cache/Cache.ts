@@ -1,4 +1,4 @@
-import { autoBind } from '@root/libs';
+import { autoBind } from '@root/libs/libs';
 
 
 

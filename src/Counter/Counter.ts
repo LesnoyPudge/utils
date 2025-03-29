@@ -1,5 +1,5 @@
 import { ListenerStore } from '@root/ListenerStore';
-import { autoBind } from '@root/libs';
+import { autoBind } from '@root/libs/libs';
 
 
 

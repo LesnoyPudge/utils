@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { isCallable } from '@root/libs';
+import { isCallable } from '@root/libs/libs';
 import { never } from '@root/never';
 import { noop } from '@root/noop';
 

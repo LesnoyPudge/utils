@@ -1,5 +1,5 @@
 import { T } from '@lesnoypudge/types-utils-base/namespace';
-import { autoBind } from '@root/libs';
+import { autoBind } from '@root/libs/libs';
 
 
 
